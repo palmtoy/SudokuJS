@@ -1,0 +1,29 @@
+.sudokuActivCell{
+    background-color:#ff8a00;
+}
+
+.sudokuBoard{
+    background-color:#fff;
+}
+
+.sudoku-button{
+    background-color:#669900;
+}
+.sudoku-button-over{
+    background-color:#6da000;
+}
+.sudoku-button-active{
+    background-color:#ff8a00;
+}
+.sudoku-button-active-over{
+    background-color:#e57a00;
+}
+
+.sudoku-button-pencil{
+    background-color:#0099cc;
+}
+
+.sudoku-button-pencil-over{
+    background-color:#0086b3;
+}
+
