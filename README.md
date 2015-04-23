@@ -8,4 +8,5 @@ There is a commercial license for the puzzles found in the puzzles folder. By pu
 The format of the puzzles are:
 
 Line 1: 81 character string of the puzzles shown to the user where 0 represents empty cells
+
 Line 2: 81 character string of the solution
