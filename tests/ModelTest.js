@@ -79,12 +79,54 @@ TestCase("SudokuModelTest", {
     },
 
 
-    "test should set server cells": function () {
+    "test should get solution": function () {
         // given
         var model = new Model(1, 20, this.puzzle);
 
         // then
         assertEquals(3, model.getSolutionFor(0,1));
+    },
+
+    "test should be able to set number": function(){
+        // given
+        var model = this.getModel();
+
+        // when
+        model.setNumber(2,0,2);
+
+        // then
+        assertEquals(2, model.getNumber(2,0));
+    },
+
+    "test should find edges": function(){
+        var model = this.getModel();
+
+        assertTrue(model.isTopInBox(3));
+        assertFalse(model.isTopInBox(2));
+
+        assertTrue(model.isLeftInBox(6));
+        assertFalse(model.isLeftInBox(4));
+
+        assertTrue(model.isRightInBox(5));
+        assertFalse(model.isRightInBox(6));
+
+        assertTrue(model.isBottomInBox(8));
+        assertFalse(model.isBottomInBox(3));
+    },
+
+    "test should find server cells": function(){
+
+        var model = this.getModel();
+
+        // then
+        assertFalse(model.isServerCell(0,0));
+        assertTrue(model.isServerCell(0,1));
+        assertTrue(model.isServerCell(1,1));
+        assertTrue(model.isServerCell(2,1));
+    },
+
+    getModel:function(){
+        return new Model(1,20,this.puzzle);
     }
 
 });

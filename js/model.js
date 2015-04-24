@@ -221,7 +221,7 @@ $.extend(Model.prototype, {
 
     eraseNumber:function(col, row){
         if(this.isLocked() || this.mAcceptCorrectNumbersOnly)return;
-        var key = getArrayIndex(col, row);
+        var key = this.getArrayIndex(col, row);
         if (this.mUserCells[key]) {
             this.mDigitCounts[mUserCells[key]]--;
         }
@@ -417,23 +417,23 @@ $.extend(Model.prototype, {
     },
 
     isLeftInBox:function(col) {
-    return col % BOX_SIZE == 0;
+        return col % this.BOX_SIZE == 0;
     },
 
     isRightInBox:function(col) {
-        return col > 0 && (col + 1) % BOX_SIZE == 0;
+        return col > 0 && (col + 1) % this.BOX_SIZE == 0;
     },
 
     isBottomInBox:function(row) {
-        return row > 0 && ((row + 1) % BOX_SIZE) == 0;
+        return row > 0 && ((row + 1) % this.BOX_SIZE) == 0;
     },
 
     getThickColumns:function(){
-        return THICK_LINE_INDEXES;
+        return this.THICK_LINE_INDEXES;
     },
 
     getThickRows:function(){
-        return THICK_LINE_INDEXES;
+        return this.THICK_LINE_INDEXES;
     },
 
     isServerCell:function(col, row){
