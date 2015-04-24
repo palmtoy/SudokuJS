@@ -31,6 +31,7 @@ $.extend(Model.prototype, {
     mQuickNotes: [],
     mManualLockedSquares: [],
     mAcceptCorrectNumbersOnly: false,
+    mActiveCell: undefined,
 
     RELATIVES: [[1, 2, 3, 4, 5, 6, 7, 8, 9, 18, 27, 36, 45, 54, 63, 72, 10, 19, 11, 20], // 0,0
         [0, 2, 3, 4, 5, 6, 7, 8, 10, 19, 28, 37, 46, 55, 64, 73, 9, 18, 11, 20], // 1,0
@@ -260,8 +261,201 @@ $.extend(Model.prototype, {
     },
 
     isCompleted:function(){
+        return this.mUserCells.join('').replace(/[^1-9]/g, '').length == this.mServerCells.replaceAll(/[^1-9]/g,'').length;
+    },
 
+    isCompletedButWrong:function(){
+        return this.isCompleted() && !this.isSolved();
+    },
+
+    toString:function(){
+        var ret = '';
+
+        ret += this.mServerCells.join('');
+        ret += this.mSolution.join('');
+        ret += this.mUserCells.join('');
+
+        ret += this.TO_STRING_SEPARATOR;
+        ret += this.mLevel;
+        ret += this.TO_STRING_SEPARATOR;
+        ret += this.mGameId;
+        ret += this.TO_STRING_SEPARATOR;
+
+        for(var i=0;i<this.mQuickNotes.length; i++){
+            if(i>0)ret += this.SEPARATOR_QUICK_NOTES_INLINE;
+            ret += this.mQuickNotes[i].join('');
+        }
+    },
+
+    isSolved:function(){
+        for(var i=0;i<this.mSolution.length; i++){
+            if(this.mUserCells[i] != this.mSolution[i] && this.mServerCells[i] != this.mSolution[i])return false;
+        }
+        return true;
+    },
+
+    setQuickNote: function(col, row, number){
+        if(this.isLocal() && this.isCellLocked(col, row) || this.hasNumber(col, row))return;
+
+        var key = this.getArrayIndex(col, row);
+        var index = number - 1;
+
+        if(!this.mQuickNotes[key]){
+            this.mQuickNotes[key] = [];
+            for(var i=0;i<this.WIDTH; i++){
+                this.mQuickNotes[key][i] = 0;
+            }
+        }
+
+        if(this.mQuickNotes[key][index] != number){
+            this.mQuickNotes[key][index] = number;
+        }else{
+            this.mQuickNotes[key][index] = 0;
+        }
+    },
+
+    removeQuickNotes:function(col, row){
+        this.mQuickNotes[this.getArrayIndex(col, row)] = [];
+    },
+
+    removeQuickNote:function(col, row, number){
+        var index = this.getArrayIndex(col, row);
+        if(!this.mQuickNotes[index])return;
+        this.mQuickNotes[index][number-1] = 0;
+    },
+
+    getQuickNotes:function(){
+        return this.mQuickNotes;
+    },
+
+    hasNumber:function(col, row){
+        var key = this.getArrayIndex(col,row);
+        return this.mUserCells[key] > 0;
+    },
+
+    getNumber:function(col, row){
+        return this.mUserCells[this.getArrayIndex(col, row)];
+    },
+
+    getSolutionFor:function(col, row){
+        return this.mSolution[this.getArrayIndex(col, row)];
+    },
+
+    isLocked:function(){
+        return this.mLocked;
+    },
+
+    lock:function(){
+        this.mLocked = true;
+    },
+
+    lockCellsWithNumbers:function(){
+        this.mAcceptCorrectNumbersOnly = true;
+    },
+
+    getValidNumbers:function(){
+        return this.VALID_NUMBERS;
+    },
+
+    isNumberCompleted:function(number){
+        return this.getDigitCount(number) == WIDTH;
+    },
+
+    getCountColsInBox:function(){
+        return 3;
+    },
+
+    getCountRowsInBox:function(){
+        return 3;
+    },
+
+    keyToCol:function(key){
+        return key % this.WIDTH;
+    },
+
+    keyToRow:function(key){
+        return Math.floor(key / this.WIDTH);
+    },
+
+    getWrongCellOnCompleted:function(){
+        if(this.isCompletedButWrong()){
+            for(var i=0;i<this.mUserCells.length;i++){
+                if(this.mUserCells[i] != this.mSolution[i] && this.mServerCells[i] != this.mSolution[i]){
+                    return {
+                        x: this.keyToCol(i), y : this.keyToRow(i)
+                    }
+                }
+            }
+        }
+    },
+
+    setActiveCell:function(col, row){
+        this.mActiveCell = {
+            x : col, y : row
+        }
+    },
+
+    getActiveCell:function(){
+        return this.mActiveCell;
+    },
+
+    isTopInBox:function(row){
+        return row % this.BOX_SIZE == 0;
+    },
+
+    isLeftInBox:function(col) {
+    return col % BOX_SIZE == 0;
+    },
+
+    isRightInBox:function(col) {
+        return col > 0 && (col + 1) % BOX_SIZE == 0;
+    },
+
+    isBottomInBox:function(row) {
+        return row > 0 && ((row + 1) % BOX_SIZE) == 0;
+    },
+
+    getThickColumns:function(){
+        return THICK_LINE_INDEXES;
+    },
+
+    getThickRows:function(){
+        return THICK_LINE_INDEXES;
+    },
+
+    isServerCell:function(col, row){
+        var key = this.getArrayIndex(col, row);
+        return this.mServerCells[key] > 0;
+    },
+
+    getServerOrUserCell:function(col, row){
+        var key = this.getArrayIndex(col, row);
+        return this.mUserCells.length > key && this.mUserCells[key] > 0 ? this.mUserCells[key] : this.mServerCells[key];
+    },
+
+    getServerCells:function(){
+        return this.mServerCells;
+    },
+
+    getUserCells:function(){
+        return this.mUserCells;
+    },
+
+    getSolutionCells:function(){
+        return this.mSolution;
+    },
+
+    getRelatives:function(col, row){
+        return this.RELATIVES[this.getArrayIndex(col, row)];
+    },
+
+    toCellCoordinates:function(index){
+        var ret = [];
+        ret.push(this.keyToCol(index));
+        ret.push(this.keyToRow(index));
+        return ret;
     }
+
 
 
 });
