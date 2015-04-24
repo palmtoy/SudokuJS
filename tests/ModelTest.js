@@ -1,6 +1,7 @@
 TestCase("SudokuModelTest", {
 
-    puzzle: "000103400" +
+    puzzle:
+    "000103400" +
     "354709261" +
     "009026803" +
     "807930504" +
@@ -9,7 +10,16 @@ TestCase("SudokuModelTest", {
     "903640100" +
     "578301642" +
     "006208000" +
-    "682153479354789261719426853867932514231564798495817326923645187578391642146278935",
+        // Solution
+    "682153479" +
+    "354789261" +
+    "719426853" +
+    "867932514" +
+    "231564798" +
+    "495817326" +
+    "923645187" +
+    "578391642" +
+    "146278935",
 
     puzzleWithUserCells: "000103400" +
     "354709261" +
@@ -41,7 +51,8 @@ TestCase("SudokuModelTest", {
     "000000000" +
     "000000003",
 
-    solvedPuzzle: "000103400" +
+    solvedPuzzle:
+    "000103400" +
     "354709261" +
     "009026803" +
     "807930504" +
@@ -61,6 +72,68 @@ TestCase("SudokuModelTest", {
     "578391642" +
     "146278935" +
         // Entered cells
+    "682050079" +
+    "000080000" +
+    "710400050" + // second column wrong
+    "060002010" +
+    "030504090" +
+    "090800020" +
+    "020005087" +
+    "000090000" +
+    "140070935",
+
+    completedButWrong:
+    "000103400" +
+    "354709261" +
+    "009026803" +
+    "807930504" +
+    "201060708" +
+    "405017306" +
+    "903640100" +
+    "578301642" +
+    "006208000" +
+    // Solution
+    "682153479" +
+    "354789261" +
+    "719426853" +
+    "867932514" +
+    "231564798" +
+    "495817326" +
+    "923645187" +
+    "578391642" +
+    "146278935" +
+    // Entered cells
+    "682050079" +
+    "000080000" +
+    "790400050" + // second column wrong
+    "060002010" +
+    "030504090" +
+    "090800020" +
+    "020005087" +
+    "000090000" +
+    "140070935",
+
+    almostSolvedPuzzle:
+    "000103400" +
+    "354709261" +
+    "009026803" +
+    "807930504" +
+    "201060708" +
+    "405017306" +
+    "903640100" +
+    "578301642" +
+    "006208000" +
+        // Solution
+    "682153479" +
+    "354789261" +
+    "719426853" +
+    "867932514" +
+    "231564798" +
+    "495817326" +
+    "923645187" +
+    "578391642" +
+    "146278935" +
+    // Entered cells
     "682050079" +
     "000080000" +
     "719426853" +
@@ -154,8 +227,90 @@ TestCase("SudokuModelTest", {
         assertTrue(triggered);
     },
 
+    "test should find out when puzzle is solved": function(){
+        // given
+        var model = this.getSolvedModel();
+
+        // then
+        assertTrue(model.isSolved());
+
+        // when
+        var model = this.getModel();
+
+        // then
+        assertFalse(model.isSolved());
+    },
+
+    "test should parse puzzle": function(){
+        // given
+        var model = this.getModel();
+
+        // then
+        assertEquals(81, model.getServerCells().length);
+        assertEquals(81, model.getUserCells().length);
+        assertEquals(81, model.getSolutionCells().length);
+    },
+
+    "test should be able to set quick notes": function(){
+        // given
+        var model = this.getModel();
+
+        // when
+        model.setQuickNote(1,0,1);
+        model.setQuickNote(1,0,3);
+        model.setQuickNote(1,0,8);
+
+        var quickNotes = model.getQuickNote(1,0);
+
+        // then
+        assertFalse(model.isCellLocked(1,0));
+        assertFalse(model.hasNumber(1,0));
+        assertEquals([1,null,3,null,null,null,null,8], quickNotes);
+    },
+
+    "test should be able to toggle quick notes": function(){
+        // given
+        var model = this.getModel();
+
+        // when
+        model.setQuickNote(1,2,1);
+        model.setQuickNote(1,2,3);
+        model.setQuickNote(1,2,8);
+        model.setQuickNote(1,2,8);
+        model.setQuickNote(1,2,3);
+        model.setQuickNote(1,2,9);
+
+        var quickNotes = model.getQuickNote(1,2);
+
+        assertEquals([1,null,0,null,null,null,null,0,9], quickNotes);
+    },
+
+    "test should find wrong cell on completed": function(){
+
+        // given
+        var model = this.getCompletedButWrongModel();
+
+        // when
+        var wrong = model.getWrongCellOnCompleted();
+
+        // then
+        assertEquals(81, model.mUserCells.join('').replace(/[^1-9]/g, '').length + model.mServerCells.join('').replace(/[^1-9]/g,'').length);
+        assertTrue(model.isCompleted());
+        assertNotUndefined(wrong);
+        assertEquals(1, wrong.x);
+        assertEquals(2, wrong.y);
+    },
+
     getModel:function(){
         return new Model(1,20,this.puzzle);
+    },
+
+    getSolvedModel:function(){
+        return new Model(1,20,this.solvedPuzzle);
+    },
+
+    getCompletedButWrongModel:function(){
+        return new Model(1,20, this.completedButWrong);
     }
 
 });

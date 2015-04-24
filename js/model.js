@@ -141,6 +141,9 @@ $.extend(Model.prototype, {
         this.mSolution = puzzleString.substring(this.SQUARES, this.SQUARES * 2).split('');
         if (puzzleString.length == this.SQUARES * 3) {
             this.mUserCells = puzzleString.substring(this.SQUARES * 2).split('');
+        }else{
+            this.mUserCells = [];
+            this.mUserCells.length = this.SQUARES;
         }
 
         this.calculateDigitCounts();
@@ -266,7 +269,7 @@ $.extend(Model.prototype, {
     },
 
     isCompleted:function(){
-        return this.mUserCells.join('').replace(/[^1-9]/g, '').length == this.mServerCells.replaceAll(/[^1-9]/g,'').length;
+        return this.mUserCells.join('').replace(/[^1-9]/g, '').length + this.mServerCells.join('').replace(/[^1-9]/g,'').length == this.SQUARES;
     },
 
     isCompletedButWrong:function(){
@@ -300,23 +303,23 @@ $.extend(Model.prototype, {
     },
 
     setQuickNote: function(col, row, number){
-        if(this.isLocal() && this.isCellLocked(col, row) || this.hasNumber(col, row))return;
+        if(this.isCellLocked(col, row) || this.hasNumber(col, row))return;
 
         var key = this.getArrayIndex(col, row);
         var index = number - 1;
 
         if(!this.mQuickNotes[key]){
             this.mQuickNotes[key] = [];
-            for(var i=0;i<this.WIDTH; i++){
-                this.mQuickNotes[key][i] = 0;
-            }
+            this.mQuickNotes[key].length = this.WIDTH;
         }
 
-        if(this.mQuickNotes[key][index] != number){
+        if(!this.mQuickNotes[key][index]){
             this.mQuickNotes[key][index] = number;
         }else{
             this.mQuickNotes[key][index] = 0;
         }
+
+        $(this).trigger("quicknote", this.mQuickNotes);
     },
 
     removeQuickNotes:function(col, row){
@@ -327,6 +330,11 @@ $.extend(Model.prototype, {
         var index = this.getArrayIndex(col, row);
         if(!this.mQuickNotes[index])return;
         this.mQuickNotes[index][number-1] = 0;
+    },
+
+    getQuickNote:function(col, row){
+        var key = this.getArrayIndex(col, row);
+        return this.mQuickNotes[key] ? this.mQuickNotes[key] : [];
     },
 
     getQuickNotes:function(){
