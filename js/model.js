@@ -221,9 +221,9 @@ $.extend(Model.prototype, {
         if(this.isLocked() || this.mAcceptCorrectNumbersOnly)return;
         var key = this.getArrayIndex(col, row);
         if (this.mUserCells[key]) {
-            this.mDigitCounts[mUserCells[key]]--;
+            this.mDigitCounts[this.mUserCells[key]]--;
         }
-        this.mUserCells[key] = '0';
+        this.mUserCells[key] = 0;
     },
 
     getCols:function(){
@@ -291,8 +291,12 @@ $.extend(Model.prototype, {
 
         for(var i=0;i<this.mQuickNotes.length; i++){
             if(i>0)ret += this.SEPARATOR_QUICK_NOTES_INLINE;
-            ret += this.mQuickNotes[i].join('');
+            if(this.mQuickNotes[i]){
+                ret += this.mQuickNotes[i].join('');
+            }
         }
+
+        return ret;
     },
 
     isSolved:function(){
@@ -468,7 +472,5 @@ $.extend(Model.prototype, {
         ret.push(this.keyToRow(index));
         return ret;
     }
-
-
 
 });

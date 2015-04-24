@@ -285,6 +285,23 @@ TestCase("SudokuModelTest", {
         assertEquals([1,null,0,null,null,null,null,0,9], quickNotes);
     },
 
+
+    "test should be able to remove quick notes": function(){
+        // given
+        var model = this.getModel();
+        model.setQuickNote(1,0,1);
+        model.setQuickNote(1,0,3);
+        model.setQuickNote(1,0,8);
+
+        // when
+        model.removeQuickNotes(1,0);
+
+        // then
+        assertEquals([], model.getQuickNote(1,0));
+
+    },
+
+
     "test should find wrong cell on completed": function(){
 
         // given
@@ -299,6 +316,68 @@ TestCase("SudokuModelTest", {
         assertNotUndefined(wrong);
         assertEquals(1, wrong.x);
         assertEquals(2, wrong.y);
+    },
+
+    "test should be able to convert from toString to new object": function(){
+
+        // given
+        var model = this.getCompletedButWrongModel();
+
+        // when
+        var modelString = model.toString();
+        var model2 = new Model(0,0, modelString);
+
+        // then
+        assertEquals(1, model2.getLevel());
+        assertEquals(20, model2.getGameId());
+        assertEquals(model.getServerCells(), model2.getServerCells());
+        assertEquals(model.getSolutionCells(), model2.getSolutionCells());
+        assertEquals(model.getUserCells(), model2.getUserCells());
+    },
+
+    "test should be able to erase number": function(){
+        // given
+        var model = this.getModel();
+
+        // when
+        model.setNumber(1,0,2);
+        assertEquals(2, model.getNumber(1,0));
+        model.eraseNumber(1,0);
+
+        assertEquals(0, model.getNumber(1,0));
+
+    },
+
+    "test should get digit count": function(){
+        // given
+        var model = this.getModel();
+
+        // then
+        assertEquals(4, model.getDigitCount(5));
+
+        // when
+        model.setNumber(1,0, 5);
+
+        // then
+        assertEquals(5, model.getDigitCount(5));
+
+        model.setNumber(1,0, 5);
+        assertEquals(4, model.getDigitCount(5));
+
+
+        model.setNumber(1,0, 5);
+        assertEquals(5, model.getDigitCount(5));
+
+        model.eraseNumber(1,0);
+        assertEquals(4, model.getDigitCount(5));
+    },
+
+    "test should get valid numbers": function(){
+        // given
+        var model = this.getModel();
+
+        // then
+        assertEquals([1,2,3,4,5,6,7,8,9], model.getValidNumbers());
     },
 
     getModel:function(){
