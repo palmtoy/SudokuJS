@@ -1,0 +1,11 @@
+load:
+  - ../js/jquery-1.11.2.min.js
+  - ../js/model.js
+
+test:
+  - ModelTest.js
+
+plugin:
+ - name: "coverage"
+   jar: "../jstestdrive/coverage-1.3.4.b.jar"
+   module: "com.google.jstestdriver.coverage.CoverageModule"

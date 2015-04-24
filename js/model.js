@@ -2,8 +2,13 @@
  * Created by Alf Magne on 23.04.2015.
  */
 
-var Model = function () {
+var Model = function (level, gameId, data) {
+    this.setLevel(level);
+    this.setGameId(gameId);
 
+    if(data){
+        this.updateWithData(data);
+    }
 };
 
 $.extend(Model.prototype, {
@@ -132,10 +137,10 @@ $.extend(Model.prototype, {
             puzzleString = modelData;
         }
 
-        this.mServerCells = puzzleString.substring(0, SQUARES).split('');
-        this.mSolution = puzzleString.substring(SQUARES, SQUARES * 2).split('');
-        if (puzzleString.length() == SQUARES * 3) {
-            this.mUserCells = puzzleString.substring(SQUARES * 2).split('');
+        this.mServerCells = puzzleString.substring(0, this.SQUARES).split('');
+        this.mSolution = puzzleString.substring(this.SQUARES, this.SQUARES * 2).split('');
+        if (puzzleString.length == this.SQUARES * 3) {
+            this.mUserCells = puzzleString.substring(this.SQUARES * 2).split('');
         }
 
         this.calculateDigitCounts();
@@ -248,6 +253,11 @@ $.extend(Model.prototype, {
         this.mManualLockedSquares[this.getArrayIndex(col,row)] = true;
     },
 
+
+    setGameId:function(gameId){
+        this.mGameId = gameId;
+    },
+
     getGameId:function(){
         return this.mGameId;
     },
@@ -263,6 +273,9 @@ $.extend(Model.prototype, {
     isCompleted:function(){
         return this.mUserCells.join('').replace(/[^1-9]/g, '').length == this.mServerCells.replaceAll(/[^1-9]/g,'').length;
     },
+
+
+
 
     isCompletedButWrong:function(){
         return this.isCompleted() && !this.isSolved();
