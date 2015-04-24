@@ -375,7 +375,7 @@ $.extend(Model.prototype, {
     },
 
     isNumberCompleted:function(number){
-        return this.getDigitCount(number) == WIDTH;
+        return this.getDigitCount(number) == this.WIDTH;
     },
 
     getCountColsInBox:function(){

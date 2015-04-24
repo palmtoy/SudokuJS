@@ -348,6 +348,35 @@ TestCase("SudokuModelTest", {
 
     },
 
+    "test should find completed numbers": function(){
+        // given
+        var model = this.getModel();
+
+        // then
+        assertFalse(model.isNumberCompleted(1));
+        assertFalse(model.isNumberCompleted(2));
+        assertFalse(model.isNumberCompleted(3));
+        assertFalse(model.isNumberCompleted(4));
+        assertFalse(model.isNumberCompleted(5));
+        assertFalse(model.isNumberCompleted(6));
+        assertFalse(model.isNumberCompleted(7));
+        assertFalse(model.isNumberCompleted(8));
+        assertFalse(model.isNumberCompleted(9));
+
+        // given
+        model = this.getSolvedModel();
+        // then
+        assertTrue(model.isNumberCompleted(1));
+        assertTrue(model.isNumberCompleted(2));
+        assertTrue(model.isNumberCompleted(3));
+        assertTrue(model.isNumberCompleted(4));
+        assertTrue(model.isNumberCompleted(5));
+        assertTrue(model.isNumberCompleted(6));
+        assertTrue(model.isNumberCompleted(7));
+        assertTrue(model.isNumberCompleted(8));
+        assertTrue(model.isNumberCompleted(9));
+    },
+
     "test should get digit count": function(){
         // given
         var model = this.getModel();
