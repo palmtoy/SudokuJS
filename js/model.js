@@ -129,7 +129,7 @@ $.extend(Model.prototype, {
             this.mLevel = parseInt(tokens[1]);
             this.mGameId = parseInt(tokens[2]);
 
-            var quickNotes = tokens[3].split(this.SEPARATOR_QUICKNOTES_INLINE);
+            var quickNotes = tokens[3].split(this.SEPARATOR_QUICK_NOTES_INLINE);
             for (var i = 0; i < quickNotes.length; i++) {
                 this.mQuickNotes[i] = quickNotes[i].split('');
             }
@@ -177,9 +177,7 @@ $.extend(Model.prototype, {
             }
 
             if (this.getSolutionFor(col, row) != number) {
-                if (this.mOnNumberEnteredListener != null) {
-                    this.mOnNumberEnteredListener.onFailedNumber(col, row);
-                }
+                $(this).trigger("wrong", [col, row]);
                 return;
             }
         }
@@ -188,8 +186,8 @@ $.extend(Model.prototype, {
         if (this.mUserCells[key] == number) {
             this.eraseNumber(col, row);
         } else {
-            if (this.mUserCells[key] >= this.NUMERIC_START && this.mUserCells[key] <= this.NUMERIC_END) {
-                this.mDigitCounts[mUserCells[key]]--;
+            if (this.mUserCells[key] > 0) {
+                this.mDigitCounts[this.mUserCells[key]]--;
             }
             this.mUserCells[key] = number;
             this.mDigitCounts[number]++;
@@ -200,17 +198,14 @@ $.extend(Model.prototype, {
                 this.removeQuickNote(this.RELATIVES[key][i], number);
             }
 
-            if (this.mOnNumberEnteredListener != null) {
-                if (this.isCorrect(col, row)) {
-                    this.mOnNumberEnteredListener.onCorrectNumber(col, row);
-                } else {
-                    this.mOnNumberEnteredListener.onFailedNumber(col, row);
-                }
+
+            if (this.isCorrect(col, row)) {
+                $(this).trigger("correct", [col, row]);
+            } else {
+                $(this).trigger("wrong", [col, row]);
             }
 
-            if (this.mOnSolvedListener != null && this.isSolved()) {
-                this.mOnSolvedListener.onSolved();
-            }
+            $(this).trigger("solved");
         }
     },
 
@@ -233,7 +228,7 @@ $.extend(Model.prototype, {
     },
 
     getRows:function(){
-        return this.HEIGHT;
+        return this.WIDTH;
     },
 
     isCellLocked:function(col, row){
@@ -273,9 +268,6 @@ $.extend(Model.prototype, {
     isCompleted:function(){
         return this.mUserCells.join('').replace(/[^1-9]/g, '').length == this.mServerCells.replaceAll(/[^1-9]/g,'').length;
     },
-
-
-
 
     isCompletedButWrong:function(){
         return this.isCompleted() && !this.isSolved();

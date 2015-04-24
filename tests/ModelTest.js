@@ -125,6 +125,35 @@ TestCase("SudokuModelTest", {
         assertTrue(model.isServerCell(2,1));
     },
 
+    "test should fire event on correct cells": function(){
+        // given
+        var model = this.getModel();
+        var triggered = false;
+        // when
+        $(model).on("correct", function(){
+            triggered = true;
+        });
+        model.setNumber(1,0,8);
+
+        // then
+        assertTrue(triggered);
+
+    },
+
+    "test should fire event on wrong cells": function(){
+        // given
+        var model = this.getModel();
+        var triggered = false;
+        // when
+        $(model).on("wrong", function(){
+            triggered = true;
+        });
+        model.setNumber(1,0,4);
+
+        // then
+        assertTrue(triggered);
+    },
+
     getModel:function(){
         return new Model(1,20,this.puzzle);
     }
