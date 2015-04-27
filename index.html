@@ -5,8 +5,15 @@
     <title>Sudoku JS example</title>
     <link rel="stylesheet" href="css/sudoku.css" media="screen"/>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+    <script type="text/javascript" src="js/model.js"></script>
 </head>
 <body>
 
+
+<script type="text/javascript">
+    var controller = new Sudoku.Controller();
+    controller.loadRandomBy(1);
+</script>
 </body>
 </html>
