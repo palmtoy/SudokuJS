@@ -410,15 +410,15 @@ TestCase("SudokuModelTest", {
     },
 
     getModel:function(){
-        return new Model(1,20,this.puzzle);
+        return new Sudoku.Model(1,20,this.puzzle);
     },
 
     getSolvedModel:function(){
-        return new Model(1,20,this.solvedPuzzle);
+        return new Sudoku.Model(1,20,this.solvedPuzzle);
     },
 
     getCompletedButWrongModel:function(){
-        return new Model(1,20, this.completedButWrong);
+        return new Sudoku.Model(1,20, this.completedButWrong);
     }
 
 });

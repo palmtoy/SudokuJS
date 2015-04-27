@@ -1,8 +1,9 @@
 /**
  * Created by Alf Magne on 23.04.2015.
  */
+if(!Sudoku)var Sudoku = {};
 
-var Model = function (level, gameId, data) {
+Sudoku.Model = function (level, gameId, data) {
     this.setLevel(level);
     this.setGameId(gameId);
 
@@ -11,7 +12,7 @@ var Model = function (level, gameId, data) {
     }
 };
 
-$.extend(Model.prototype, {
+$.extend(Sudoku.Model.prototype, {
 
     TO_STRING_SEPARATOR: ';',
     SEPARATOR_QUICK_NOTES_INLINE: ',',
