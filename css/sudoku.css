@@ -6,8 +6,13 @@
     background-color:#fff;
 }
 
+.sudoku-button-shadow{
+    background-color:#000000;
+}
 .sudoku-button{
+    position:absolute;
     background-color:#669900;
+    color:#FFF;
 }
 .sudoku-button-over{
     background-color:#6da000;

@@ -5,14 +5,42 @@
     <title>Sudoku JS example</title>
     <link rel="stylesheet" href="css/sudoku.css" media="screen"/>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="js/controller.js"></script>
-    <script type="text/javascript" src="js/model.js"></script>
+    <script type="text/javascript" src="js/Controller.js"></script>
+    <script type="text/javascript" src="js/Model.js"></script>
+    <script type="text/javascript" src="js/Buttons.js"></script>
+
+    <style type="text/css">
+        .content{
+            margin:0 auto;
+            width:640px;
+        }
+        #button_bar_container{
+            width:100%;
+            position:relative;
+            height:150px;
+        }
+    </style>
 </head>
 <body>
 
+<div class="content">
+    <div class="heading"><img src="images/heading.png"></div>
+    <div id="puzzle_container"></div>
+    <div id="button_bar_container"></div>
+</div>
+
 
 <script type="text/javascript">
+
+    var buttonBar = new Sudoku.Buttons({
+        renderTo:'#button_bar_container'
+    });
+
+
     var controller = new Sudoku.Controller();
+    $(controller).on("loadmodel", function(model){
+        buttonBar.setModel(model);
+    });
     controller.loadRandomBy(1);
 </script>
 </body>
