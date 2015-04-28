@@ -8,16 +8,18 @@
     <script type="text/javascript" src="js/Controller.js"></script>
     <script type="text/javascript" src="js/Model.js"></script>
     <script type="text/javascript" src="js/Buttons.js"></script>
+    <script type="text/javascript" src="js/Board.js"></script>
 
     <style type="text/css">
         .content{
             margin:0 auto;
-            width:640px;
+            width:500px;
         }
         #button_bar_container{
             width:100%;
             position:relative;
             height:150px;
+            margin-top:5px;
         }
     </style>
 </head>
@@ -31,15 +33,20 @@
 
 
 <script type="text/javascript">
-
     var buttonBar = new Sudoku.Buttons({
         renderTo:'#button_bar_container'
     });
 
+    var board = new Sudoku.Board({
+        renderTo:'#puzzle_container'
+    });
 
     var controller = new Sudoku.Controller();
+    controller.setButtonBar(buttonBar);
+    controller.setBoard(board);
     $(controller).on("loadmodel", function(event, model){
-
+        sudokuModel = model;
+        board.setModel(model);
         buttonBar.setModel(model);
     });
     controller.loadRandomBy(1);

@@ -18,11 +18,17 @@
     color:#FFF;
 }
 
+.sudoku-button-quicknotes{
+    background-color:#0099cc;
+}
 
-
-.sudoku-button-over{
+.sudoku-button-default-over{
     background-color:#6da000;
 }
+.sudoku-button-quicknotes-over{
+    background-color:#00ace5;
+}
+
 .sudoku-button-active{
     background-color:#ff8a00;
 }
@@ -30,11 +36,46 @@
     background-color:#e57a00;
 }
 
-.sudoku-button-pencil{
-    background-color:#0099cc;
+.sudoku-board{
+    position:relative;
+    overflow:hidden;
+
 }
 
-.sudoku-button-pencil-over{
-    background-color:#0086b3;
+.sudoku-square-number{
+    position:absolute;
+    text-align:center;
+    font-family:arial;
+    cursor:pointer;
+
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
+}
+
+.sudoku-square-locked{
+    color:#000;
+}
+.sudoku-square-open{
+    color:#039;
+}
+.sudoku-square-frame{
+    position:absolute;
+    border: 0 #000 solid;
+}
+.sudoku-square-highlight{
+    background-color:#e57a00;
+}
+.sudoku-line{
+    background-color:#000;
+}
+
+.sudoku-board-frame{
+    position:absolute;
+    border-color:#000;
 }
 

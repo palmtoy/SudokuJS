@@ -202,6 +202,11 @@ $.extend(Sudoku.Model.prototype, {
                 this.removeQuickNote(this.RELATIVES[key][i], number);
             }
 
+            $(this).trigger("setNumber", {
+                x: col, y : row, number : number
+            });
+
+            $(this).trigger("digitCountUpdated", number);
 
             if (this.isCorrect(col, row)) {
                 $(this).trigger("correct", [col, row]);
@@ -209,7 +214,9 @@ $.extend(Sudoku.Model.prototype, {
                 $(this).trigger("wrong", [col, row]);
             }
 
-            $(this).trigger("solved");
+            if(this.isSolved()) {
+                $(this).trigger("solved");
+            }
         }
     },
 
@@ -223,8 +230,11 @@ $.extend(Sudoku.Model.prototype, {
         var key = this.getArrayIndex(col, row);
         if (this.mUserCells[key]) {
             this.mDigitCounts[this.mUserCells[key]]--;
+            $(this).trigger("digitCountUpdated", this.mUserCells[key]);
         }
         this.mUserCells[key] = 0;
+
+        $(this).trigger("erase", { x : col, y : row });
     },
 
     getCols:function(){
@@ -242,6 +252,10 @@ $.extend(Sudoku.Model.prototype, {
 
     getDigitCount:function(digit){
         return this.mDigitCounts[digit];
+    },
+
+    getRemainingCount:function(digit){
+        return this.WIDTH - this.mDigitCounts[digit];
     },
 
     getArrayIndex: function (col, row) {

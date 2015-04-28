@@ -19,12 +19,19 @@ $.extend(Sudoku.Buttons.prototype, {
     centerX: undefined,
     minX: undefined,
 
+    totalButtonCount:0,
+
     model: undefined,
 
     buttons:[],
     digitCounts:[],
 
     quickNotesEnabled:true,
+
+    mode:'default',
+
+    activeButtonIndex:-1,
+    activeButton : undefined,
 
     configure: function (config) {
         config = config || {};
@@ -94,6 +101,7 @@ $.extend(Sudoku.Buttons.prototype, {
             switch(text){
                 case "quicknotes":
                     button.append('<img src="images/pencil.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
+                    button.on("click", null, null, this.toggleQuickNotes.bind(this));
                     break;
                 case "eraser":
                     button.append('<img src="images/eraser.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
@@ -102,23 +110,63 @@ $.extend(Sudoku.Buttons.prototype, {
 
         }
 
+        if(index < this.model.getValidNumbers().length) {
+            button.on("click", function () {
+                if (this.activeButtonIndex >= 0) {
+                    this.buttons[this.activeButtonIndex].removeClass("sudoku-button-active");
+                }
+                this.activeButtonIndex = index;
+                this.activeButton = text;
+                button.addClass("sudoku-button-active");
+                $(this).trigger("numberClicked", text);
+            }.bind(this));
+        }
 
         button.on("mouseover", function(){
-            button.addClass("sudoku-button-over");
-        });
+            button.addClass("sudoku-button-" + this.mode + "-over");
+        }.bind(this));
+
         button.on("mouseout", function(){
-            button.removeClass("sudoku-button-over");
-        });
+            button.removeClass("sudoku-button-quicknotes-over");
+            button.removeClass("sudoku-button-default-over");
+            button.removeClass("sudoku-button-erase-over");
+        }.bind(this));
 
         this.buttons.push(button);
+    },
+
+    getNumber:function(){
+        return this.activeButton ? parseInt(this.activeButton) : null;
+    },
+
+    updateDigitCount:function(digit){
+        this.digitCounts[digit-1].text(this.model.getRemainingCount(digit));
+
+    },
+
+    toggleQuickNotes:function(){
+        this.toggleMode("quicknotes");
+    },
+
+    toggleMode:function(mode){
+        for(var i= 0;i<this.totalButtonCount;i++){
+            this.buttons[i].removeClass("sudoku-button-" + mode);
+        }
+        if(this.mode == mode){
+            this.mode = 'default';
+        }else{
+            this.mode = mode;
+            for(i= 0;i<this.totalButtonCount;i++){
+                this.buttons[i].addClass("sudoku-button-" + mode);
+            }
+        }
     },
 
     measure: function () {
         var width = this.renderTo.width();
         var height = this.renderTo.height();
-        var countButtons = this.getNumberButtons().length + this.getSpecialButtons().length;
-        this.countPerRow = Math.ceil(countButtons / this.rows);
-        console.log(countButtons + "," + this.countPerRow);
+        this.totalButtonCount = this.getNumberButtons().length + this.getSpecialButtons().length;
+        this.countPerRow = Math.ceil(this.totalButtonCount / this.rows);
         var widthSize = (width / this.countPerRow);
         var heightSize = (height / this.rows);
 
