@@ -38,7 +38,8 @@
 
 
     var controller = new Sudoku.Controller();
-    $(controller).on("loadmodel", function(model){
+    $(controller).on("loadmodel", function(event, model){
+
         buttonBar.setModel(model);
     });
     controller.loadRandomBy(1);

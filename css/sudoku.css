@@ -10,10 +10,16 @@
     background-color:#000000;
 }
 .sudoku-button{
+    cursor:pointer;
+    font-family:arial;
+    text-align:center;
     position:absolute;
     background-color:#669900;
     color:#FFF;
 }
+
+
+
 .sudoku-button-over{
     background-color:#6da000;
 }

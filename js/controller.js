@@ -37,10 +37,7 @@ $.extend(Sudoku.Controller.prototype, {
     },
 
     onLoad:function(data){
-        var model = new Sudoku.Model(data.puzzle);
-        model.setGameId(data.index);
-        model.setLevel(data.level);
-
-        $(this).trigger("loadmodel", model);
+        var model = new Sudoku.Model(data.level, data.index, data.puzzle);
+        $(this).trigger("loadmodel", model );
     }
 });
