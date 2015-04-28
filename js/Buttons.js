@@ -33,6 +33,9 @@ $.extend(Sudoku.Buttons.prototype, {
     activeButtonIndex:-1,
     activeButton : undefined,
 
+    eraser:undefined,
+    pencil:undefined,
+
     configure: function (config) {
         config = config || {};
         if (config.renderTo) {
@@ -53,8 +56,6 @@ $.extend(Sudoku.Buttons.prototype, {
         this.measure();
 
         this.renderTo.empty();
-
-
 
         var numberButtons = this.model.getValidNumbers();
         this.buttons = [];
@@ -102,9 +103,12 @@ $.extend(Sudoku.Buttons.prototype, {
                 case "quicknotes":
                     button.append('<img src="images/pencil.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
                     button.on("click", null, null, this.toggleQuickNotes.bind(this));
+                    this.pencil = button;
                     break;
                 case "eraser":
                     button.append('<img src="images/eraser.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
+                    button.on("click", null, null, this.toggleEraseMode.bind(this));
+                    this.eraser = button;
                     break;
             }
 
@@ -144,14 +148,36 @@ $.extend(Sudoku.Buttons.prototype, {
 
     },
 
+    isInQuickNotesMode:function(){
+        return this.mode == 'quicknotes';
+    },
+
+    isInEraseMode:function(){
+        return this.mode == 'erase';
+    },
+
     toggleQuickNotes:function(){
         this.toggleMode("quicknotes");
+    },
+
+    toggleEraseMode:function(){
+        this.toggleMode("erase");
     },
 
     toggleMode:function(mode){
         for(var i= 0;i<this.totalButtonCount;i++){
             this.buttons[i].removeClass("sudoku-button-" + mode);
         }
+
+        if(this.mode == 'quicknotes' && mode == 'pencil'){
+            this.pencil.removeClass("sudoku-button-" + this.mode + "-over");
+            this.pencil.addClass("sudoku-button-default-over");
+        }
+        if(this.mode == 'erase' && mode == 'erase'){
+            this.eraser.removeClass("sudoku-button-" + this.mode + "-over");
+            this.eraser.addClass("sudoku-button-default-over");
+        }
+
         if(this.mode == mode){
             this.mode = 'default';
         }else{
@@ -159,6 +185,14 @@ $.extend(Sudoku.Buttons.prototype, {
             for(i= 0;i<this.totalButtonCount;i++){
                 this.buttons[i].addClass("sudoku-button-" + mode);
             }
+        }
+        this.eraser.removeClass("sudoku-button-pressed");
+        this.pencil.removeClass("sudoku-button-pressed");
+        if(this.mode == 'erase'){
+            this.eraser.addClass("sudoku-button-pressed");
+        }
+        if(this.mode == 'quicknotes'){
+            this.pencil.addClass("sudoku-button-pressed");
         }
     },
 

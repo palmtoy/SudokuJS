@@ -22,6 +22,16 @@
     background-color:#0099cc;
 }
 
+.sudoku-button-erase{
+    background-color:#b6db49;
+}
+div.sudoku-button-pressed{
+    background-color:#ff8a00;
+}
+.sudoku-button-erase-over{
+    background-color:#b6db49;
+}
+
 .sudoku-button-default-over{
     background-color:#6da000;
 }
@@ -38,7 +48,7 @@
 
 .sudoku-board{
     position:relative;
-    overflow:hidden;
+
 
 }
 
@@ -77,5 +87,13 @@
 .sudoku-board-frame{
     position:absolute;
     border-color:#000;
+}
+
+.sudoku-board-grid-color-one{
+    background-color:#FFF;
+}
+.sudoku-board-grid-color-two{
+    background-color:#f5f5f5;
+
 }
 

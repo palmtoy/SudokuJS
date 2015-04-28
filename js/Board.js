@@ -59,12 +59,32 @@ $.extend(Sudoku.Board.prototype, {
 
         this.renderTo.append(this.board);
 
-
+        this.renderBackgroundColors();
         this.renderLines();
         this.renderFrame();
         this.renderSquares();
 
 
+    },
+
+    renderBackgroundColors:function(){
+        var cols = this.model.getCountColsInBox();
+        var rows = this.model.getCountRowsInBox();
+
+        var width = this.model.getCountColsInBox() * this.squareSize;
+        var height = this.model.getCountRowsInBox() * this.squareSize;
+
+        var size = this.model.getValidNumbers().length;
+
+        for(var i=0;i<size;i+=cols){
+            for(var j=0;j<size; j+= rows){
+                var cls = (i+j) % 2 == 0 ? "sudoku-board-grid-color-one" : "sudoku-board-grid-color-two";
+                var x = i * this.squareSize;
+                var y = j * this.squareSize;
+
+                this.board.append($('<div class="' + cls + '" style="position:absolute;width:' + width + 'px;height:' + height + 'px;top:' + y + 'px;left:' + x + 'px"></div>'));
+            }
+        }
     },
 
     renderSquares: function () {
@@ -83,14 +103,6 @@ $.extend(Sudoku.Board.prototype, {
 
             for (var row = 0; row < this.size; row++) {
                 this.renderSquare(col, row);
-            }
-        }
-    },
-
-    clearHighlights:function(){
-        if (this.activeDigit && this.activeDigit && this.highlights[this.activeDigit]) {
-            for (var i = 0, len = this.highlights[this.activeDigit].length; i < len; i++) {
-                this.highlights[this.activeDigit][i].css("display", "none");
             }
         }
     },
@@ -126,7 +138,6 @@ $.extend(Sudoku.Board.prototype, {
         var offsetTop = (this.squareSize - this.squareHighlightSize) / 2;
         var offsetLeft = (this.squareSize - this.squareHighlightSize) / 2;
 
-
         var highlight = $('<div class="sudoku-square-highlight" style="display:none;position:absolute;border-radius:' + this.squareHighlightRadius + 'px;left:' + (x + offsetLeft) + 'px;top:' + (y + offsetTop) + 'px;width:' + this.squareHighlightSize + 'px;height:' + this.squareHighlightSize + 'px"></div>');
         if (!this.highlights[digit]) {
             this.highlights[digit] = [];
@@ -136,12 +147,13 @@ $.extend(Sudoku.Board.prototype, {
 
         this.board.append(highlight);
 
+        var el = $('<div class="sudoku-square-number" style="line-height:' + this.squareSize + 'px;font-size:' + this.textSize + 'px;left:' + x + 'px;top:' + y + 'px;width:' + this.squareSize + 'px;height:' + this.squareSize + 'px"></div>');
 
-        offsetTop = (this.squareSize - this.textSize) / 2;
-        offsetLeft = (this.squareSize - this.textSize) / 2;
-
-
-        var el = $('<div class="sudoku-square-number" style="font-size:' + this.textSize + 'px;left:' + (x + offsetLeft) + 'px;top:' + (y + offsetTop) + 'px;width:' + (this.squareSize - (offsetLeft * 2)) + 'px;height:' + (this.squareSize - (offsetTop * 2)) + 'px"></div>');
+        if(this.model.isServerCell(col, row)){
+            el.addClass("sudoku-square-locked");
+        }else{
+            el.addClass("sudoku-square-open");
+        }
 
         if (digit) {
             el.text(digit);
@@ -198,7 +210,7 @@ $.extend(Sudoku.Board.prototype, {
         }
         var highlight = this.highlightsGrid[col][row];
         this.highlights[number].push(highlight);
-        console.log(col + ", " + row + ", " + number);
+
         this.squares[col][row].text(number);
         this.numbers[col][row] = number;
 
@@ -219,8 +231,6 @@ $.extend(Sudoku.Board.prototype, {
         if(index >= 0){
             this.highlights[n].splice(index, 1);
         }
-
-        console.log(this.highlights[n].length);
 
         this.numbers[col][row] = 0;
 
@@ -243,9 +253,9 @@ $.extend(Sudoku.Board.prototype, {
         this.squareHighlightSize = this.squareSize * 0.8;
         this.squareHighlightRadius = this.squareHighlightSize / 2;
         this.textSize = this.squareSize * 0.6;
-        this.borderSize = this.squareSize / 15;
-        this.borderSizeThin = this.squareSize / 30;
-        this.borderRadius = this.squareSize / 10;
+        this.borderSize = Math.round(this.squareSize / 15);
+        this.borderSizeThin = Math.round(this.squareSize / 30);
+        this.borderRadius = this.squareSize / 7;
 
 
     },
