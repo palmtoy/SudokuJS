@@ -40,6 +40,8 @@ $.extend(Sudoku.Board.prototype, {
 
     highlightedIncorrect: undefined,
 
+    locked : false,
+
     configure: function (config) {
         if (config.renderTo) {
             this.renderTo = $(config.renderTo);
@@ -50,6 +52,8 @@ $.extend(Sudoku.Board.prototype, {
 
     render: function () {
         if (!this.model)return;
+
+        this.locked = false;
 
         this.highlightedIncorrect = undefined;
 
@@ -290,6 +294,10 @@ $.extend(Sudoku.Board.prototype, {
         this.model = model;
         $(model).on("restartGame", this.render.bind(this));
         this.render();
+    },
+
+    lock:function(){
+        this.locked = true;
     }
 
 });

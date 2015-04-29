@@ -54,6 +54,8 @@ $.extend(Sudoku.Buttons.prototype, {
 
         if(!this.model)return;
 
+        this.locked = false;
+
         this.centerX = this.renderTo.width() / 2;
 
         this.measure();
@@ -122,9 +124,7 @@ $.extend(Sudoku.Buttons.prototype, {
         if(index < this.model.getValidNumbers().length) {
             button.on("click", function () {
                 if(this.locked)return;
-                if (this.activeButtonIndex >= 0) {
-                    this.buttons[this.activeButtonIndex].removeClass("sudoku-button-active");
-                }
+                this.clearCssFromActiveButton();
                 this.activeButtonIndex = index;
                 this.activeButton = text;
                 button.addClass("sudoku-button-active");
@@ -133,16 +133,24 @@ $.extend(Sudoku.Buttons.prototype, {
         }
 
         button.on("mouseover", function(){
+            if(this.locked)return;
             button.addClass("sudoku-button-" + this.mode + "-over");
         }.bind(this));
 
         button.on("mouseout", function(){
+            if(this.locked)return;
             button.removeClass("sudoku-button-quicknotes-over");
             button.removeClass("sudoku-button-default-over");
             button.removeClass("sudoku-button-erase-over");
         }.bind(this));
 
         this.buttons.push(button);
+    },
+
+    clearCssFromActiveButton:function(){
+        if (this.activeButtonIndex >= 0) {
+            this.buttons[this.activeButtonIndex].removeClass("sudoku-button-active");
+        }
     },
 
     getNumber:function(){
@@ -240,10 +248,12 @@ $.extend(Sudoku.Buttons.prototype, {
         this.locked = false;
 
         $(model).on("restartGame", this.render.bind(this));
+
         this.render();
     },
 
     lock:function(){
         this.locked = true;
+        this.clearCssFromActiveButton();
     }
 });
