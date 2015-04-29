@@ -1,7 +1,6 @@
 load:
   - ../js/jquery-1.11.2.min.js
   - ../js/Model.js
-
 test:
   - ModelTest.js
 
