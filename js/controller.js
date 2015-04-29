@@ -82,7 +82,19 @@ $.extend(Sudoku.Controller.prototype, {
         if(this.board)this.board.setModel(model);
         if(this.buttonBar)this.buttonBar.setModel(model);
 
+        if(this.model.isSolved()){
+            this.lockViews();
+        }
+        $(this.model).on("solved", function(){
+            this.lockViews();
+        }.bind(this));
+
         $(this).trigger("loadmodel", model );
+    },
+
+    lockViews:function(){
+        if(this.buttonBar)this.buttonBar.lock();
+        if(this.board)this.board.lock();
     },
 
     setButtonBar:function(buttonBar){
@@ -137,9 +149,7 @@ $.extend(Sudoku.Controller.prototype, {
 
     saveGame:function(){
         if(typeof(Storage)=="undefined")return;
-        console.log("Saving game");
         localStorage["sudokuToResume"] = this.model.toString();
-        console.log(this.model.toString());
     },
 
     hasGameToResume:function(){
