@@ -76,7 +76,6 @@ $.extend(Sudoku.Buttons.prototype, {
         var x = index % this.countPerRow;
         var y = Math.floor(index / this.countPerRow);
 
-
         var left = this.minX + (x * this.buttonSizeWithSpacing);
         var top = this.buttonSizeWithSpacing * y;
 
@@ -232,6 +231,4 @@ $.extend(Sudoku.Buttons.prototype, {
         this.model = model;
         this.render();
     }
-
-
 });

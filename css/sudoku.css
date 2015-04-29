@@ -16,6 +16,14 @@
     position:absolute;
     background-color:#669900;
     color:#FFF;
+
+    -webkit-user-select: none; /* Chrome/Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+ */
+
+    /* Rules below not implemented in browsers yet */
+    -o-user-select: none;
+    user-select: none;
 }
 
 .sudoku-button-quicknotes{
@@ -95,7 +103,11 @@ div.sudoku-button-pressed{
     background-color:#FFF;
 }
 .sudoku-board-grid-color-two{
-    background-color:#f5f5f5;
+    background-color:#f3f3f3;
 
+}
+
+div.sudoku-square-incorrect{
+    color:#F00;
 }
 

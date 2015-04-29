@@ -61,6 +61,9 @@ $.extend(Sudoku.Controller.prototype, {
             }
         }.bind(this));
 
+        if(this.board)this.board.setModel(model);
+        if(this.buttonBar)this.buttonBar.setModel(model);
+
         $(this).trigger("loadmodel", model );
     },
 

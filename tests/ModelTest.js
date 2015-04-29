@@ -74,7 +74,7 @@ TestCase("SudokuModelTest", {
         // Entered cells
     "682050079" +
     "000080000" +
-    "710400050" + // second column wrong
+    "710400050" + // second column Incorrect
     "060002010" +
     "030504090" +
     "090800020" +
@@ -82,7 +82,7 @@ TestCase("SudokuModelTest", {
     "000090000" +
     "140070935",
 
-    completedButWrong:
+    completedButIncorrect:
     "000103400" +
     "354709261" +
     "009026803" +
@@ -105,7 +105,7 @@ TestCase("SudokuModelTest", {
     // Entered cells
     "682050079" +
     "000080000" +
-    "790400050" + // second column wrong
+    "790400050" + // second column Incorrect
     "060002010" +
     "030504090" +
     "090800020" +
@@ -145,7 +145,7 @@ TestCase("SudokuModelTest", {
     "146278935",
 
     "test should set game id": function () {
-        var model = new Model(1, 20, false);
+        var model = new Sudoku.Model(1, 20, false);
 
         // then
         assertEquals(20, model.getGameId());
@@ -154,7 +154,7 @@ TestCase("SudokuModelTest", {
 
     "test should get solution": function () {
         // given
-        var model = new Model(1, 20, this.puzzle);
+        var model = new Sudoku.Model(1, 20, this.puzzle);
 
         // then
         assertEquals(3, model.getSolutionFor(0,1));
@@ -213,12 +213,12 @@ TestCase("SudokuModelTest", {
 
     },
 
-    "test should fire event on wrong cells": function(){
+    "test should fire event on Incorrect cells": function(){
         // given
         var model = this.getModel();
         var triggered = false;
         // when
-        $(model).on("wrong", function(){
+        $(model).on("incorrect", function(){
             triggered = true;
         });
         model.setNumber(1,0,4);
@@ -302,30 +302,30 @@ TestCase("SudokuModelTest", {
     },
 
 
-    "test should find wrong cell on completed": function(){
+    "test should find Incorrect cell on completed": function(){
 
         // given
-        var model = this.getCompletedButWrongModel();
+        var model = this.getCompletedButIncorrectModel();
 
         // when
-        var wrong = model.getWrongCellOnCompleted();
+        var Incorrect = model.getIncorrectCellOnCompleted();
 
         // then
         assertEquals(81, model.mUserCells.join('').replace(/[^1-9]/g, '').length + model.mServerCells.join('').replace(/[^1-9]/g,'').length);
         assertTrue(model.isCompleted());
-        assertNotUndefined(wrong);
-        assertEquals(1, wrong.x);
-        assertEquals(2, wrong.y);
+        assertNotUndefined(Incorrect);
+        assertEquals(1, Incorrect.x);
+        assertEquals(2, Incorrect.y);
     },
 
     "test should be able to convert from toString to new object": function(){
 
         // given
-        var model = this.getCompletedButWrongModel();
+        var model = this.getCompletedButIncorrectModel();
 
         // when
         var modelString = model.toString();
-        var model2 = new Model(0,0, modelString);
+        var model2 = new Sudoku.Model(0,0, modelString);
 
         // then
         assertEquals(1, model2.getLevel());
@@ -409,6 +409,52 @@ TestCase("SudokuModelTest", {
         assertEquals([1,2,3,4,5,6,7,8,9], model.getValidNumbers());
     },
 
+    "test should find incorrect cells": function(){
+        // given
+        var model = this.getModel();
+
+        // when
+        model.setNumber(0,0,'6');
+        model.setNumber(1,0,'7'); // incorrect, correct is 8
+
+        var pos = model.getIncorrectCell();
+
+        // then
+        assertFalse(model.isCellLocked(1,0));
+        assertEquals(8, model.getSolutionFor(1,0));
+        assertEquals(7, model.getUserCell(1,0));
+        assertEquals(1, pos.x);
+        assertEquals(0, pos.y);
+
+    },
+
+    "test should find solved": function(){
+        // given
+        var model = this.getModel();
+
+        var solution =
+                ["682153479",
+                "354789261",
+                "719426853",
+                "867932514",
+                "231564798",
+                "495817326",
+                "923645187",
+                "578391642",
+                "146278935"]
+
+        for(var row = 0;row < solution.length; row++){
+            for(var col = 0; col < solution[row].length; col++){
+                var digit = solution[row].charAt(col);
+                model.setNumber(col, row, parseInt(digit));
+            }
+        }
+
+        // then
+        assertFalse(model.isCompletedButIncorrect());
+        assertTrue(model.isSolved());
+    },
+
     getModel:function(){
         return new Sudoku.Model(1,20,this.puzzle);
     },
@@ -417,8 +463,8 @@ TestCase("SudokuModelTest", {
         return new Sudoku.Model(1,20,this.solvedPuzzle);
     },
 
-    getCompletedButWrongModel:function(){
-        return new Sudoku.Model(1,20, this.completedButWrong);
+    getCompletedButIncorrectModel:function(){
+        return new Sudoku.Model(1,20, this.completedButIncorrect);
     }
 
 });

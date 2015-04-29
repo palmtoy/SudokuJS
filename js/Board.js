@@ -36,6 +36,10 @@ $.extend(Sudoku.Board.prototype, {
 
     currentlyHighlighted:[],
 
+    container : undefined,
+
+    highlightedIncorrect: undefined,
+
     configure: function (config) {
         if (config.renderTo) {
             this.renderTo = $(config.renderTo);
@@ -45,9 +49,11 @@ $.extend(Sudoku.Board.prototype, {
     },
 
     render: function () {
-        this.renderTo.empty();
+
 
         if (!this.model)return;
+
+        this.highlightedIncorrect = undefined;
 
         this.measure();
 
@@ -55,16 +61,20 @@ $.extend(Sudoku.Board.prototype, {
 
         this.size = this.model.getValidNumbers().length;
 
+        if(!this.container) {
+            this.container = $('<div></div>');
+            this.renderTo.append(this.container);
+        }
+        this.container.empty();
+
         this.board = $('<div class="sudoku-board" style="width:' + this.boardSize + 'px;height:' + this.boardSize + 'px">');
 
-        this.renderTo.append(this.board);
+        this.container.append(this.board);
 
         this.renderBackgroundColors();
         this.renderLines();
         this.renderFrame();
         this.renderSquares();
-
-
     },
 
     renderBackgroundColors:function(){
@@ -193,10 +203,8 @@ $.extend(Sudoku.Board.prototype, {
             var left = this.squareSize * (i + 1) - (borderSize / 2);
             var el = $('<div class="sudoku-line" style="position:absolute;left:0;height:' + width + 'px;left:' + left + 'px;width:' + borderSize + 'px"></div>');
             this.board.append(el);
-
         }
     },
-
 
     clickCell: function (col, row) {
         if (!this.model.isCellLocked(col, row)) {
@@ -215,6 +223,18 @@ $.extend(Sudoku.Board.prototype, {
         this.numbers[col][row] = number;
 
         this.highlight(number);
+
+        this.clearIncorrect();
+
+        if(this.model.isCompletedButIncorrect()){
+            var pos = this.model.getIncorrectCellOnCompleted();
+            console.log(pos);
+            if(pos){
+                var cell = this.squares[pos.x][pos.y];
+                cell.addClass("sudoku-square-incorrect");
+                this.highlightedIncorrect = cell;
+            }
+        }
     },
 
 
@@ -223,9 +243,6 @@ $.extend(Sudoku.Board.prototype, {
 
         var n = this.numbers[col][row];
         var h = this.highlightsGrid[col][row];
-
-        console.log(this.highlights[n].length);
-
 
         var index = this.highlights[n].indexOf(h);
         if(index >= 0){
@@ -236,6 +253,16 @@ $.extend(Sudoku.Board.prototype, {
 
         if(this.activeDigit){
             this.highlight(this.activeDigit);
+        }
+
+        this.clearIncorrect();
+
+
+    },
+
+    clearIncorrect:function(){
+        if(this.highlightedIncorrect){
+            this.highlightedIncorrect.removeClass("sudoku-square-incorrect");
         }
     },
 
