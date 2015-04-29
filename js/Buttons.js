@@ -144,7 +144,13 @@ $.extend(Sudoku.Buttons.prototype, {
     },
 
     updateDigitCount:function(digit){
-        this.digitCounts[digit-1].text(this.model.getRemainingCount(digit));
+        var remaining = this.model.getRemainingCount(digit);
+        this.digitCounts[digit-1].text(remaining);
+        if(remaining == 0){
+            this.buttons[digit-1].addClass("sudoku-button-text-finished");
+        }else{
+            this.buttons[digit-1].removeClass("sudoku-button-text-finished");
+        }
 
     },
 

@@ -13,6 +13,7 @@
     <style type="text/css">
         body{
             background-color:#f0f8db;
+            font-family:arial;
         }
         .content{
             margin:0 auto;
@@ -24,34 +25,48 @@
             height:150px;
             margin-top:5px;
         }
+        #puzzle_description{
+            text-align:right;
+            font-size:0.8em;
+            padding-bottom:5px;
+        }
     </style>
 </head>
 <body>
 
 <div class="content">
     <div class="heading"><img src="images/heading.png"></div>
-    <div id="puzzle_container"></div>
+    <div id="puzzle_description"></div>
+    <div id="board_container"></div>
     <div id="button_bar_container"></div>
 </div>
 
 
 <script type="text/javascript">
+    // Text description - levels
+    var difficulties = [
+        'Very easy', 'Easy','Easy', 'Moderate', 'Moderate', 'Hard','Very Hard', 'Extreme'
+    ];
+
+    // Create button bar and render it to <div id="button_bar_container">
     var buttonBar = new Sudoku.Buttons({
         renderTo:'#button_bar_container'
     });
 
+    // Create board and render it to <div id="board_container">
     var board = new Sudoku.Board({
-        renderTo:'#puzzle_container'
+        renderTo:'#board_container'
     });
 
+    // Create controller and make it aware of the button bar and board
     var controller = new Sudoku.Controller();
     controller.setButtonBar(buttonBar);
     controller.setBoard(board);
+    // When a model is loaded, update textual description above board
     $(controller).on("loadmodel", function(event, model){
-        sudokuModel = model;
-        board.setModel(model);
-        buttonBar.setModel(model);
+        $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
     });
+    // Load random - very easy sudoku
     controller.loadRandomBy(1);
 </script>
 </body>

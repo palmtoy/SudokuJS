@@ -46,10 +46,12 @@ div.sudoku-button-pressed{
     background-color:#e57a00;
 }
 
+.sudoku-button-text-finished{
+    color:#e2f0b6;
+}
+
 .sudoku-board{
     position:relative;
-
-
 }
 
 .sudoku-square-number{
