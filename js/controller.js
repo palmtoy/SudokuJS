@@ -1,7 +1,9 @@
 if(!Sudoku)var Sudoku = {};
 
-Sudoku.Controller = function(url){
-    if(url != undefined)this.url = url;
+Sudoku.Controller = function(config){
+    config = config || {};
+    if(config.commercial != undefined)this.commercial = config.commercial;
+    if(config.url != undefined)this.url = config.url;
 };
 
 $.extend(Sudoku.Controller.prototype, {
@@ -10,6 +12,8 @@ $.extend(Sudoku.Controller.prototype, {
     buttonBar:undefined,
     board : undefined,
     model : undefined,
+
+    commercial: false,
 
     load:function(level, index){
 
@@ -23,6 +27,9 @@ $.extend(Sudoku.Controller.prototype, {
     },
 
     request:function(data){
+        if(this.commercial){
+            data.commercial = this.commercial;
+        }
         $.ajax({
             dataType : 'json',
             method:'post',
@@ -94,5 +101,9 @@ $.extend(Sudoku.Controller.prototype, {
                 }
             }
         }.bind(this));
+    },
+
+    useCommercial:function(){
+        this.commercial = true;
     }
 });
