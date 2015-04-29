@@ -59,7 +59,10 @@
     });
 
     // Create controller and make it aware of the button bar and board
-    var controller = new Sudoku.Controller();
+    var controller = new Sudoku.Controller({
+        commercial:true // Set to true ONLY after purchasing a commercial license
+    });
+
     controller.setButtonBar(buttonBar);
     controller.setBoard(board);
     // When a model is loaded, update textual description above board

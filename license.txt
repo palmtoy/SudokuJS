@@ -1,3 +1,0 @@
-License for the Javascript and PHP Code: BSD
-
-License for the puzzles: (C) Cellar Labs - Commercial licenses

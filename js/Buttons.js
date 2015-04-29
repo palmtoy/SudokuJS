@@ -36,6 +36,8 @@ $.extend(Sudoku.Buttons.prototype, {
     eraser:undefined,
     pencil:undefined,
 
+    locked:undefined,
+
     configure: function (config) {
         config = config || {};
         if (config.renderTo) {
@@ -115,6 +117,7 @@ $.extend(Sudoku.Buttons.prototype, {
 
         if(index < this.model.getValidNumbers().length) {
             button.on("click", function () {
+                if(this.locked)return;
                 if (this.activeButtonIndex >= 0) {
                     this.buttons[this.activeButtonIndex].removeClass("sudoku-button-active");
                 }
@@ -170,6 +173,7 @@ $.extend(Sudoku.Buttons.prototype, {
     },
 
     toggleMode:function(mode){
+        if(this.locked)return;
         for(var i= 0;i<this.totalButtonCount;i++){
             this.buttons[i].removeClass("sudoku-button-" + mode);
         }
@@ -229,6 +233,11 @@ $.extend(Sudoku.Buttons.prototype, {
 
     setModel: function (model) {
         this.model = model;
+        this.locked = false;
         this.render();
+    },
+
+    lock:function(){
+        this.locked = true;
     }
 });

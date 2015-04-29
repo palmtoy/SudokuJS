@@ -138,6 +138,8 @@ $.extend(Sudoku.Model.prototype, {
             puzzleString = modelData;
         }
 
+        puzzleString = puzzleString.replace(/[^0-9]/g,'');
+
         this.mServerCells = puzzleString.substring(0, this.SQUARES).split('');
         this.mSolution = puzzleString.substring(this.SQUARES, this.SQUARES * 2).split('');
         if (puzzleString.length == this.SQUARES * 3) {
@@ -181,17 +183,17 @@ $.extend(Sudoku.Model.prototype, {
             }
 
             if (this.getSolutionFor(col, row) != number) {
-                $(this).trigger("wrong", [col, row]);
+                $(this).trigger("incorrect", [col, row]);
                 return;
             }
         }
-
 
         if (this.mUserCells[key] == number) {
             this.eraseNumber(col, row);
         } else {
             if (this.mUserCells[key] > 0) {
                 this.mDigitCounts[this.mUserCells[key]]--;
+                $(this).trigger("digitCountUpdated", this.mUserCells[key]);
             }
             this.mUserCells[key] = number;
             this.mDigitCounts[number]++;
@@ -211,7 +213,7 @@ $.extend(Sudoku.Model.prototype, {
             if (this.isCorrect(col, row)) {
                 $(this).trigger("correct", [col, row]);
             } else {
-                $(this).trigger("wrong", [col, row]);
+                $(this).trigger("incorrect", [col, row]);
             }
 
             if(this.isSolved()) {
@@ -287,7 +289,7 @@ $.extend(Sudoku.Model.prototype, {
         return this.mUserCells.join('').replace(/[^1-9]/g, '').length + this.mServerCells.join('').replace(/[^1-9]/g,'').length == this.SQUARES;
     },
 
-    isCompletedButWrong:function(){
+    isCompletedButIncorrect:function(){
         return this.isCompleted() && !this.isSolved();
     },
 
@@ -409,13 +411,17 @@ $.extend(Sudoku.Model.prototype, {
         return Math.floor(key / this.WIDTH);
     },
 
-    getWrongCellOnCompleted:function(){
-        if(this.isCompletedButWrong()){
-            for(var i=0;i<this.mUserCells.length;i++){
-                if(this.mUserCells[i] != this.mSolution[i] && this.mServerCells[i] != this.mSolution[i]){
-                    return {
-                        x: this.keyToCol(i), y : this.keyToRow(i)
-                    }
+    getIncorrectCellOnCompleted:function(){
+        if(this.isCompletedButIncorrect()){
+            return this.getIncorrectCell();
+        }
+    },
+
+    getIncorrectCell:function(){
+        for(var i=0;i<this.mUserCells.length;i++){
+            if(this.mUserCells[i] != this.mSolution[i] && this.mServerCells[i] != this.mSolution[i]){
+                return {
+                    x: this.keyToCol(i), y : this.keyToRow(i), key : i
                 }
             }
         }
@@ -467,6 +473,15 @@ $.extend(Sudoku.Model.prototype, {
 
     getServerCells:function(){
         return this.mServerCells;
+    },
+
+    getUserCell:function(col, row){
+        var key = this.getArrayIndex(col, row);
+        return this.mUserCells[key];
+    },
+
+    getLockedCell:function(col, row){
+        return this.mServerCells[this.getArrayIndex(col, row)];
     },
 
     getUserCells:function(){
