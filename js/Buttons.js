@@ -51,6 +51,7 @@ $.extend(Sudoku.Buttons.prototype, {
 
 
     render: function () {
+
         if(!this.model)return;
 
         this.centerX = this.renderTo.width() / 2;
@@ -64,6 +65,8 @@ $.extend(Sudoku.Buttons.prototype, {
         this.digitCounts = [];
         for (var i = 0, len = numberButtons.length; i <len; i++) {
             this.renderButton(i, numberButtons[i]);
+            this.updateDigitCount(i+1);
+
         }
 
         var specialButtons = this.getSpecialButtons();
@@ -71,7 +74,6 @@ $.extend(Sudoku.Buttons.prototype, {
         for(i=0,len = specialButtons.length; i<len; i++){
             this.renderButton(numberButtons.length + i, specialButtons[i]);
         }
-
     },
 
     renderButton: function (index, text) {
@@ -96,9 +98,11 @@ $.extend(Sudoku.Buttons.prototype, {
             var ts = this.textSize / 4;
             var offset = this.buttonSize * 0.15;
             var offsetRight = this.buttonSize * 0.2;
-            var digitCount = $('<div style="position:absolute;font-size:' + ts + 'px;right:' + offsetRight + 'px;top:' + offset + 'px">' + this.model.getRemainingCount(text) + '</div>');
+            var digitCount = $('<div style="position:absolute;font-size:' + ts + 'px;right:' + offsetRight + 'px;top:' + offset + 'px"></div>');
             button.append(digitCount);
             this.digitCounts.push(digitCount);
+
+
         }else{
             switch(text){
                 case "quicknotes":
@@ -234,6 +238,8 @@ $.extend(Sudoku.Buttons.prototype, {
     setModel: function (model) {
         this.model = model;
         this.locked = false;
+
+        $(model).on("restartGame", this.render.bind(this));
         this.render();
     },
 

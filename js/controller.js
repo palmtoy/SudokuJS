@@ -4,6 +4,10 @@ Sudoku.Controller = function(config){
     config = config || {};
     if(config.commercial != undefined)this.commercial = config.commercial;
     if(config.url != undefined)this.url = config.url;
+
+    $(window).unload(function(){
+        this.saveGame();
+    }.bind(this));
 };
 
 $.extend(Sudoku.Controller.prototype, {
@@ -49,6 +53,13 @@ $.extend(Sudoku.Controller.prototype, {
 
     onLoad:function(data){
         var model = new Sudoku.Model(data.level, data.index, data.puzzle);
+
+        this.setModel(model);
+
+        this.saveGame();
+    },
+
+    setModel:function(model){
         this.model = model;
         $(this.model).on("setNumber", function(event, data){
             if(this.board){
@@ -73,7 +84,6 @@ $.extend(Sudoku.Controller.prototype, {
 
         $(this).trigger("loadmodel", model );
     },
-
 
     setButtonBar:function(buttonBar){
         this.buttonBar = buttonBar;
@@ -105,5 +115,35 @@ $.extend(Sudoku.Controller.prototype, {
 
     useCommercial:function(){
         this.commercial = true;
+    },
+
+    getModel:function(){
+        return this.model;
+    },
+
+    resume:function(){
+        if(this.hasGameToResume()){
+            var game = localStorage["sudokuToResume"];
+            var model = new Sudoku.Model();
+            model.populate(game);
+            this.setModel(model);
+        }
+    },
+
+    clearGameToResume:function(){
+        if(typeof(Storage)=="undefined")return;
+        localStorage.clear();
+    },
+
+    saveGame:function(){
+        if(typeof(Storage)=="undefined")return;
+        console.log("Saving game");
+        localStorage["sudokuToResume"] = this.model.toString();
+        console.log(this.model.toString());
+    },
+
+    hasGameToResume:function(){
+        if(typeof(Storage)=="undefined")return false;
+        return localStorage["sudokuToResume"] ? true: false;
     }
 });

@@ -4,11 +4,10 @@
 if(!Sudoku)var Sudoku = {};
 
 Sudoku.Model = function (level, gameId, data) {
-    this.setLevel(level);
-    this.setGameId(gameId);
-
+    if(level)this.setLevel(level);
+    if(gameId) this.setGameId(gameId);
     if(data){
-        this.updateWithData(data);
+        this.populate(data);
     }
 };
 
@@ -122,7 +121,7 @@ $.extend(Sudoku.Model.prototype, {
         [72, 73, 74, 75, 76, 77, 78, 79, 8, 17, 26, 35, 44, 53, 62, 71, 60, 69, 61, 70] // 8,8
     ],
 
-    updateWithData: function (modelData) {
+    populate: function (modelData) {
         var puzzleString = '';
         if (modelData.indexOf(this.TO_STRING_SEPARATOR) >= 0) {
             var tokens = modelData.split(this.TO_STRING_SEPARATOR);
@@ -145,12 +144,25 @@ $.extend(Sudoku.Model.prototype, {
         if (puzzleString.length == this.SQUARES * 3) {
             this.mUserCells = puzzleString.substring(this.SQUARES * 2).split('');
         }else{
-            this.mUserCells = [];
-            this.mUserCells.length = this.SQUARES;
+            this.resetUserCells();
         }
 
         this.calculateDigitCounts();
 
+    },
+
+    resetUserCells:function(){
+        this.mUserCells = [];
+        this.mUserCells.length = this.SQUARES;
+        for(var i=0;i<this.mUserCells.length;i++){
+            this.mUserCells[i] = 0;
+        }
+    },
+
+    restart:function(){
+        this.resetUserCells();
+        this.calculateDigitCounts();
+        $(this).trigger("restartGame");
     },
 
     calculateDigitCounts: function () {

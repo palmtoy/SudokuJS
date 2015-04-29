@@ -111,3 +111,17 @@ div.sudoku-square-incorrect{
     color:#F00;
 }
 
+.sudoku-menu-button{
+    background-image: linear-gradient(to bottom, #8abd00, #669900);
+    background-color:#669900;
+    color:#FFF;
+    font-size:23px;
+    height:50px;
+    cursor:pointer;
+    vertical-align: middle;
+    border-radius:8px;
+    font-weight: bold;
+    display:inline-block;
+    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+

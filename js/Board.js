@@ -49,8 +49,6 @@ $.extend(Sudoku.Board.prototype, {
     },
 
     render: function () {
-
-
         if (!this.model)return;
 
         this.highlightedIncorrect = undefined;
@@ -75,6 +73,7 @@ $.extend(Sudoku.Board.prototype, {
         this.renderLines();
         this.renderFrame();
         this.renderSquares();
+
     },
 
     renderBackgroundColors:function(){
@@ -289,6 +288,7 @@ $.extend(Sudoku.Board.prototype, {
 
     setModel: function (model) {
         this.model = model;
+        $(model).on("restartGame", this.render.bind(this));
         this.render();
     }
 

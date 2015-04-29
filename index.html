@@ -30,6 +30,7 @@
             font-size:0.8em;
             padding-bottom:5px;
         }
+
     </style>
 </head>
 <body>
@@ -39,6 +40,9 @@
     <div id="puzzle_description"></div>
     <div id="board_container"></div>
     <div id="button_bar_container"></div>
+    <div class="menu_container">
+        <Button class="sudoku-menu-button" onclick="controller.getModel().restart()">Restart</Button>
+    </div>
 </div>
 
 
@@ -70,7 +74,12 @@
         $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
     });
     // Load random - very easy sudoku
-    controller.loadRandomBy(1);
+
+    if(controller.hasGameToResume()){
+        controller.resume();
+    }else {
+        controller.loadRandomBy(1);
+    }
 </script>
 </body>
 </html>
