@@ -51,8 +51,7 @@
 
 
 <script type="text/javascript">
-    // Text description - levels
-
+    // Text descriptions - levels
     var difficulties = [
         'Very easy', 'Easy','Easy', 'Moderate', 'Moderate', 'Hard','Very Hard', 'Extreme'
     ];
@@ -67,23 +66,24 @@
         renderTo:'#board_container'
     });
 
-    // Create controller and make it aware of the button bar and board
+    // Create controller
     var controller = new Sudoku.Controller({
         commercial:true // Set to true ONLY after purchasing a commercial license
     });
-
-
+    // Make controller aware of views
     controller.setButtonBar(buttonBar);
     controller.setBoard(board);
+
     // When a model is loaded, update textual description above board
     $(controller).on("loadmodel", function(event, model){
         $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
     });
-    // Load random - very easy sudoku
 
     if(controller.hasGameToResume()){
+        // puzzle saved in local storage(browser) - resume it
         controller.resume();
     }else {
+        // Load random - very easy sudoku
         controller.loadRandomBy(1);
     }
 </script>
