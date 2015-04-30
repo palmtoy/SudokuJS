@@ -263,6 +263,11 @@ $.extend(Sudoku.Board.prototype, {
 
         this.clearIncorrect();
 
+        this.onCompletedButIncorrect();
+
+    },
+
+    onCompletedButIncorrect:function(){
         if(this.model.isCompletedButIncorrect()){
 
             this.board.effect("shake", { times: 1 }, "slow");

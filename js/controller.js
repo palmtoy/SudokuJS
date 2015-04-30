@@ -84,9 +84,12 @@ $.extend(Sudoku.Controller.prototype, {
 
         if(this.model.isSolved()){
             this.lockViews();
+        }else if(this.model.isCompletedButIncorrect()){
+            if(this.board)this.board.onCompletedButIncorrect();
         }
         $(this.model).on("solved", function(){
             this.lockViews();
+            $(this).trigger("solved");
         }.bind(this));
 
         $(this.model).on("quicknote", function(event, col,row, notes){
