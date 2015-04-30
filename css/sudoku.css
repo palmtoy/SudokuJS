@@ -125,3 +125,11 @@ div.sudoku-square-incorrect{
     border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
 
+.sudoku-quicknotes-container{
+
+}
+
+.sudoku-quicknotes-cell{
+    float:left;
+    text-align:center;
+}

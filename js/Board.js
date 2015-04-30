@@ -19,6 +19,8 @@ $.extend(Sudoku.Board.prototype, {
     squareHighlightSize: undefined,
     squareHighlightRadius: undefined,
     textSize: undefined,
+    quickNotesTextSize:undefined,
+    quickNotesCellWidth:undefined,
 
     board: undefined,
 
@@ -27,6 +29,7 @@ $.extend(Sudoku.Board.prototype, {
     squares: [],
     highlights: [],
     highlightsGrid: [],
+    quickNotes:[],
 
     numbers: [],
 
@@ -105,6 +108,7 @@ $.extend(Sudoku.Board.prototype, {
         this.numbers = [];
         this.squares = [];
         this.highlights = [];
+        this.quickNotes = [];
         this.highlightsGrid = [];
         this.highlights.length = this.model.getValidNumbers().length + 1;
 
@@ -112,10 +116,12 @@ $.extend(Sudoku.Board.prototype, {
         for (var col = 0; col < this.size; col++) {
             this.squares[col] = [];
             this.numbers[col] = [];
+            this.quickNotes[col] = [];
             this.highlightsGrid[col] = [];
 
             for (var row = 0; row < this.size; row++) {
                 this.renderSquare(col, row);
+                this.renderQuickNotes(col, row);
             }
         }
     },
@@ -159,6 +165,11 @@ $.extend(Sudoku.Board.prototype, {
         this.highlightsGrid[col].push(highlight);
 
         this.board.append(highlight);
+
+        var quickNote = $('<div class="sudoku-quicknotes-container" style="position:absolute;line-height:' + (this.squareSize / this.model.BOX_SIZE) + 'px;font-size:' + this.quickNotesTextSize + 'px;left:' + x + 'px;top:' + y + 'px;width:' + this.squareSize + 'px;height:' + this.squareSize + 'px"></div>');
+        this.board.append(quickNote);
+        this.quickNotes[col].push(quickNote);
+
 
         var el = $('<div class="sudoku-square-number" style="line-height:' + this.squareSize + 'px;font-size:' + this.textSize + 'px;left:' + x + 'px;top:' + y + 'px;width:' + this.squareSize + 'px;height:' + this.squareSize + 'px"></div>');
 
@@ -213,6 +224,24 @@ $.extend(Sudoku.Board.prototype, {
         if (!this.model.isCellLocked(col, row)) {
             $(this).trigger("click", {x: col, y: row});
         }
+    },
+
+    renderQuickNotes:function(col, row){
+        var quickNotes = this.model.getQuickNote(col, row);
+
+        this.quickNotes[col][row].empty();
+
+        if(this.model.hasNumber(col, row) || this.model.isCellLocked(col, row))return;
+
+        var content = '';
+        for(var i=0;i<this.size;i++){
+            var num = parseInt(quickNotes[i]);
+            num = num ? num : '';
+            content += '<div class="sudoku-quicknotes-cell" style="width:' + this.quickNotesCellWidth + '%;height:' + this.quickNotesCellWidth + '%;">' + num + '</div>';
+        }
+
+        this.quickNotes[col][row].append(content);
+
     },
 
     setNumber: function (col, row, number) {
@@ -283,10 +312,13 @@ $.extend(Sudoku.Board.prototype, {
         this.squareHighlightSize = this.squareSize * 0.8;
         this.squareHighlightRadius = this.squareHighlightSize / 2;
         this.textSize = this.squareSize * 0.6;
+        this.quickNotesTextSize = this.textSize / 3;
+
         this.borderSize = Math.round(this.squareSize / 15);
         this.borderSizeThin = Math.round(this.squareSize / 30);
         this.borderRadius = this.squareSize / 7;
 
+        this.quickNotesCellWidth = 100 / this.model.BOX_SIZE;
 
     },
 

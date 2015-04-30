@@ -123,6 +123,7 @@ $.extend(Sudoku.Model.prototype, {
 
     populate: function (modelData) {
         var puzzleString = '';
+        this.mQuickNotes = [];
         if (modelData.indexOf(this.TO_STRING_SEPARATOR) >= 0) {
             var tokens = modelData.split(this.TO_STRING_SEPARATOR);
             puzzleString = tokens[0];
@@ -211,6 +212,8 @@ $.extend(Sudoku.Model.prototype, {
             this.mDigitCounts[number]++;
 
             this.mQuickNotes[key] = [];
+
+            $(this).trigger("quicknote", [col, row, this.mQuickNotes[key]]);
 
             for (var i = 0; i < this.RELATIVES[key]; i++) {
                 this.removeQuickNote(this.RELATIVES[key][i], number);
@@ -341,18 +344,21 @@ $.extend(Sudoku.Model.prototype, {
         var key = this.getArrayIndex(col, row);
         var index = number - 1;
 
-        if(!this.mQuickNotes[key]){
+        if(!this.mQuickNotes[key] || this.mQuickNotes[key].length == 0){
             this.mQuickNotes[key] = [];
             this.mQuickNotes[key].length = this.WIDTH;
+            for(var i=0;i<this.WIDTH;i++){
+                this.mQuickNotes[key][i] = 0;
+            }
         }
 
-        if(!this.mQuickNotes[key][index]){
+        if(!parseInt(this.mQuickNotes[key][index])){
             this.mQuickNotes[key][index] = number;
         }else{
             this.mQuickNotes[key][index] = 0;
         }
 
-        $(this).trigger("quicknote", this.mQuickNotes);
+        $(this).trigger("quicknote", [col, row, this.mQuickNotes[key]]);
     },
 
     removeQuickNotes:function(col, row){

@@ -89,6 +89,10 @@ $.extend(Sudoku.Controller.prototype, {
             this.lockViews();
         }.bind(this));
 
+        $(this.model).on("quicknote", function(event, col,row, notes){
+            if(this.board)this.board.renderQuickNotes(col, row, notes);
+        }.bind(this));
+
         $(this).trigger("loadmodel", model );
     },
 
