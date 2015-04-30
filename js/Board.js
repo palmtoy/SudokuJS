@@ -168,7 +168,7 @@ $.extend(Sudoku.Board.prototype, {
 
         this.board.append(highlight);
 
-        var quickNote = $('<div class="sudoku-quicknotes-container" style="position:absolute;line-height:' + (this.squareSize / this.model.BOX_SIZE) + 'px;font-size:' + this.quickNotesTextSize + 'px;left:' + x + 'px;top:' + y + 'px;width:' + this.squareSize + 'px;height:' + this.squareSize + 'px"></div>');
+        var quickNote = $('<div class="sudoku-quicknotes-container" style="position:absolute;line-height:' + (this.squareSize / this.model.BOX_SIZE) + 'px;font-size:' + this.quickNotesTextSize + 'px;left:' + x + 'px;top:' + y + 'px;width:' + (this.squareSize - this.borderSizeThin) + 'px;height:' + this.squareSize + 'px"></div>');
         this.board.append(quickNote);
         this.quickNotes[col].push(quickNote);
 

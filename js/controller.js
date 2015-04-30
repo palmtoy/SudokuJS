@@ -129,10 +129,6 @@ $.extend(Sudoku.Controller.prototype, {
         }.bind(this));
     },
 
-    useCommercial:function(){
-        this.commercial = true;
-    },
-
     getModel:function(){
         return this.model;
     },

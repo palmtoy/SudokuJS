@@ -30,7 +30,7 @@
     background-color:#0099cc;
 }
 
-.sudoku-button-erase{
+div.sudoku-button-erase{
     background-color:#b6db49;
 }
 div.sudoku-button-pressed{
