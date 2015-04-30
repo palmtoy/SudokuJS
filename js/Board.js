@@ -67,12 +67,12 @@ $.extend(Sudoku.Board.prototype, {
         this.size = this.model.getValidNumbers().length;
 
         if(!this.container) {
-            this.container = $('<div></div>');
+            this.container = $('<div style="position:relative;width:' + this.boardSize + 'px;height:' + this.boardSize + 'px"></div>');
             this.renderTo.append(this.container);
         }
         this.container.empty();
 
-        this.board = $('<div class="sudoku-board" style="width:' + this.boardSize + 'px;height:' + this.boardSize + 'px">');
+        this.board = $('<div class="sudoku-board" style="position:absolute;width:' + this.boardSize + 'px;height:' + this.boardSize + 'px">');
 
         this.container.append(this.board);
 
@@ -80,6 +80,8 @@ $.extend(Sudoku.Board.prototype, {
         this.renderLines();
         this.renderFrame();
         this.renderSquares();
+
+
 
     },
 
@@ -259,8 +261,10 @@ $.extend(Sudoku.Board.prototype, {
         this.clearIncorrect();
 
         if(this.model.isCompletedButIncorrect()){
+
+            this.board.effect("shake", { times: 1 }, "slow");
+
             var pos = this.model.getIncorrectCellOnCompleted();
-            console.log(pos);
             if(pos){
                 var cell = this.squares[pos.x][pos.y];
                 cell.addClass("sudoku-square-incorrect");
@@ -268,7 +272,6 @@ $.extend(Sudoku.Board.prototype, {
             }
         }
     },
-
 
     eraseNumber: function (col, row) {
         this.squares[col][row].text("");
