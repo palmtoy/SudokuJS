@@ -247,6 +247,9 @@ $.extend(Sudoku.Board.prototype, {
     },
 
     setNumber: function (col, row, number) {
+
+        if(this.locked) return;
+
         if (this.numbers[col][row]) {
             this.eraseNumber(col, row);
         }
