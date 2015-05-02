@@ -116,7 +116,8 @@ $.extend(Sudoku.Buttons.prototype, {
         this.renderTo.append(button);
 
         if(text.length == 1){
-            button.append('<div style="width:' + this.textSize + 'px;height:' + this.buttonSize + 'px;position:absolute;top:48%;left:50%;margin-left:' + textOffset + 'px;margin-top:' + textOffset + 'px">' + (index+1) + '</div>');
+            button.append('<div style="width:' + this.textSize + 'px;vertical-align: middle; height:' + this.textSize + 'px;position:absolute;top:48%;left:50%;margin-left:'
+            + textOffset + 'px;margin-top:' + textOffset + 'px"><span>' + (index+1) + '</span></div>');
             var size = this.buttonSize / 5;
             var ts = this.textSize / 4;
             var offset = this.buttonSize * 0.15;
