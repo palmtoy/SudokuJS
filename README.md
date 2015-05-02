@@ -14,8 +14,11 @@ Line 2: 81 character string of the solution
 
 #Javascript "classes"
 Sudoku.Board - Board View
+
 Sudoku.Buttons - Button bar for the Sudoku
+
 Sudoku.NewGameDialog - Dialog for starting a new game
+
 Sudoku.SolvedDialog - Dialog shown when sudoku is solved
 
 
