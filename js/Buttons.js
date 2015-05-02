@@ -122,7 +122,7 @@ $.extend(Sudoku.Buttons.prototype, {
             var ts = this.textSize / 4;
             var offset = this.buttonSize * 0.15;
             var offsetRight = this.buttonSize * 0.2;
-            var digitCount = $('<div style="position:absolute;font-size:' + ts + 'px;right:' + offsetRight + 'px;top:' + offset + 'px"></div>');
+            var digitCount = $('<div style="position:absolute;font-size:' + ts + 'px;line-height:' + ts + 'px;right:' + offsetRight + 'px;top:' + offset + 'px"></div>');
             button.append(digitCount);
             this.digitCounts.push(digitCount);
 
