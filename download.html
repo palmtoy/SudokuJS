@@ -159,57 +159,13 @@
 </span>
 <h4>Step 3: Create Sudoku Javascript objects</h4>
 <p>Example:</p>
-<pre class="brush:javascript">
-    // Text descriptions - levels
-    var difficulties = [
-        'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
-    ];
-
-    // Create button bar and render it to <div id="button_bar_container">
-    var buttonBar = new Sudoku.Buttons({
-    renderTo: '#button_bar_container'
-    });
-
-    // Create board and render it to <div id="board_container">
-    var board = new Sudoku.Board({
-    renderTo: '#board_container'
-    });
-
-    // New Game Dialog
-    var newGameDialog = new Sudoku.NewGameDialog({
-    renderTo: '#board_container',
-    difficulty: 1 // Default difficulty
-    });
-
-    // Sudoku Solved view - shown when sudoku is solved
-    var solvedView = new Sudoku.SolvedDialog({
-    renderTo: '#board_container',
-    txtNewGame: 'New Game' // Button text - new game
-    });
-
-
-    // Create controller
-    var controller = new Sudoku.Controller({
-    commercial: true // Set to true ONLY after purchasing a commercial license
-    });
-    // Make controller aware of views
-    controller.setButtonBar(buttonBar);
-    controller.setBoard(board);
-    controller.setNewGameDialog(newGameDialog);
-    controller.setSudokuSolvedView(solvedView);
-
-    // When a model is loaded, update textual description above board
-    $(controller).on("loadmodel", function (event, model) {
-    $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
-    });
-
-    if (controller.hasGameToResume()) {
-    // puzzle saved in local storage(browser) - resume it
-    controller.resume();
-    } else {
-    // Show new game dialog
-    controller.showEmptyBoard();
-    newGameDialog.show();
-    }
-
-</pre>
+<span class="inline_code">
+// Create button bar and render it to &lt;div id="button_bar_container"><br>
+&nbsp;&nbsp;var buttonBar = new Sudoku.Buttons({<br>
+&nbsp;&nbsp;renderTo: '#button_bar_container'<br>
+});<br><br>
+ // Create board and render it to &lt;div id="board_container"><br>
+&nbsp;&nbsp;var board = new Sudoku.Board({<br>
+&nbsp;&nbsp;renderTo: '#board_container'<br>
+});
+</span>
