@@ -22,6 +22,7 @@ Sudoku.SolvedDialog - Dialog shown when sudoku is solved
 #USAGE
 1) Create views and render them to empty &lt;div> elements on the web page
 Example:
+
 ```html
 <div id="button_bar_container"></div>
 ``
@@ -31,9 +32,11 @@ Example:
 var board = new Sudoku.Board({
     renderTo: '#board_container'
 });
+
 ```
 
 2) Create the controller and make the controller aware of available views
+
 ```javascript
 // Create controller
 var controller = new Sudoku.Controller({
@@ -48,7 +51,7 @@ controller.setSudokuSolvedView(solvedView);
 The controller loads Sudoku Puzzles from the server and handles interactions between the views
 
 # Complete Code sample
-```javascript
+`
 // Text descriptions - levels
 var difficulties = [
     'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
