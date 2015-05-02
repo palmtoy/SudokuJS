@@ -171,7 +171,7 @@
     &lt;div id="button_bar_container">&lt;/div>
 </span>
 </p>
-<h4>Step 3: Create Sudoku Javascript objects</h4>
+<h4>Step 3: Create Sudoku Javascript View objects</h4>
 <p>Example:</p>
 <p>
 <span class="inline_code">
@@ -181,11 +181,33 @@
 });<br><br>
  // Create board and render it to &lt;div id="board_container"><br>
 &nbsp;&nbsp;var board = new Sudoku.Board({<br>
-&nbsp;&nbsp;renderTo: '#board_container'<br>
-});
-// Create controller
+&nbsp;&nbsp;renderTo: '#board_container'<br><br>
+});<br><br>
+    // New Game Dialog<br>
+var newGameDialog = new Sudoku.NewGameDialog({<br>
+&nbsp;&nbsp;    renderTo: '#board_container',<br>
+&nbsp;&nbsp;    difficulty: 1 // Default difficulty<br>
+});<br><br>
+
+// Sudoku Solved view - shown when sudoku is solved<br>
+var solvedView = new Sudoku.SolvedDialog({<br>
+&nbsp;&nbsp;    renderTo: '#board_container',<br>
+&nbsp;&nbsp;    txtNewGame: 'New Game' // Button text - new game<br>
+});<br>
+
+</span>
+</p>
+<h4>Step 4: Create Javascript Sudoku controller and make it aware of the views.</h4>
+<p>Example:</p>
+<p>
+<span class="inline_code">
+// Create controller<br>
 var controller = new Sudoku.Controller({<br>
  &nbsp;&nbsp;   commercial: true // Set to true ONLY after purchasing a commercial license<br>
-});
+});<br><br>
+controller.setButtonBar(buttonBar);<br>
+controller.setBoard(board);<br>
+controller.setNewGameDialog(newGameDialog);<br>
+controller.setSudokuSolvedView(solvedView);<br>
 </span>
 </p>
