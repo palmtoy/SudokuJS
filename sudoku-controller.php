@@ -30,7 +30,7 @@ if(isset($_POST['getRandom'])){
     $sudokuReader = new SudokuReader();
 
     // IMPORTANT! If you have purchased a commercial license, enable the code below by removing the two comment slashes at the start of the line
-    // $sudokuReader->useCommercial();
+    $sudokuReader->useCommercial();
 
     if(isset($_POST['level'])){
         echo json_encode($sudokuReader->getRandomBy($_POST['level']));
