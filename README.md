@@ -23,64 +23,79 @@ Sudoku.SolvedDialog - Dialog shown when sudoku is solved
 Example:
 ```html
 <div id="button_bar_container"></div>
-```
+``
 
 ```javascript
-    // Create board and render it to <div id="board_container">
-    var board = new Sudoku.Board({
-        renderTo: '#board_container'
-    });
+// Create board and render it to <div id="board_container">
+var board = new Sudoku.Board({
+    renderTo: '#board_container'
+});
 ```
+
+2) Create the controller and make the controller aware of available views
 ```javascript
-    // Text descriptions - levels
-    var difficulties = [
-        'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
-    ];
+// Create controller
+var controller = new Sudoku.Controller({
+    commercial: true // Set to true ONLY after purchasing a commercial license
+});
+// Make controller aware of views
+controller.setButtonBar(buttonBar);
+controller.setBoard(board);
+controller.setNewGameDialog(newGameDialog);
+controller.setSudokuSolvedView(solvedView);
+```
 
-    // Create button bar and render it to <div id="button_bar_container">
-    var buttonBar = new Sudoku.Buttons({
-        renderTo: '#button_bar_container'
-    });
+# Complete Code sample
+```javascript
+// Text descriptions - levels
+var difficulties = [
+    'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
+];
 
-    // Create board and render it to <div id="board_container">
-    var board = new Sudoku.Board({
-        renderTo: '#board_container'
-    });
+// Create button bar and render it to <div id="button_bar_container">
+var buttonBar = new Sudoku.Buttons({
+    renderTo: '#button_bar_container'
+});
 
-    // New Game Dialog
-    var newGameDialog = new Sudoku.NewGameDialog({
-        renderTo: '#board_container',
-        difficulty: 1 // Default difficulty
-    });
+// Create board and render it to <div id="board_container">
+var board = new Sudoku.Board({
+    renderTo: '#board_container'
+});
 
-    // Sudoku Solved view - shown when sudoku is solved
-    var solvedView = new Sudoku.SudokuSolvedDialog({
-        renderTo: '#board_container',
-        txtNewGame: 'New Game' // Button text - new game
-    });
+// New Game Dialog
+var newGameDialog = new Sudoku.NewGameDialog({
+    renderTo: '#board_container',
+    difficulty: 1 // Default difficulty
+});
+
+// Sudoku Solved view - shown when sudoku is solved
+var solvedView = new Sudoku.SudokuSolvedDialog({
+    renderTo: '#board_container',
+    txtNewGame: 'New Game' // Button text - new game
+});
 
 
-    // Create controller
-    var controller = new Sudoku.Controller({
-        commercial: true // Set to true ONLY after purchasing a commercial license
-    });
-    // Make controller aware of views
-    controller.setButtonBar(buttonBar);
-    controller.setBoard(board);
-    controller.setNewGameDialog(newGameDialog);
-    controller.setSudokuSolvedView(solvedView);
+// Create controller
+var controller = new Sudoku.Controller({
+    commercial: true // Set to true ONLY after purchasing a commercial license
+});
+// Make controller aware of views
+controller.setButtonBar(buttonBar);
+controller.setBoard(board);
+controller.setNewGameDialog(newGameDialog);
+controller.setSudokuSolvedView(solvedView);
 
-    // When a model is loaded, update textual description above board
-    $(controller).on("loadmodel", function (event, model) {
-        $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
-    });
+// When a model is loaded, update textual description above board
+$(controller).on("loadmodel", function (event, model) {
+    $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
+});
 
-    if (controller.hasGameToResume()) {
-        // puzzle saved in local storage(browser) - resume it
-        controller.resume();
-    } else {
-        // Show new game dialog
-        controller.showEmptyBoard();
-        newGameDialog.show();
-    }
+if (controller.hasGameToResume()) {
+    // puzzle saved in local storage(browser) - resume it
+    controller.resume();
+} else {
+    // Show new game dialog
+    controller.showEmptyBoard();
+    newGameDialog.show();
+}
 ```
