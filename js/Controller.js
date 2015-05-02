@@ -19,7 +19,7 @@ if(!Sudoku)var Sudoku = {};
 
 Sudoku.Controller = function(config){
     config = config || {};
-    if(config.commercial != undefined)this.commercial = config.commercial;
+
     if(config.url != undefined)this.url = config.url;
 
     $(window).unload(function(){
@@ -36,7 +36,7 @@ $.extend(Sudoku.Controller.prototype, {
     newGameDialog:undefined,
     sudokuSolvedView:undefined,
 
-    commercial: false,
+
 
     load:function(level, index){
 
@@ -50,9 +50,6 @@ $.extend(Sudoku.Controller.prototype, {
     },
 
     request:function(data){
-        if(this.commercial){
-            data.commercial = this.commercial;
-        }
         $.ajax({
             dataType : 'json',
             method:'post',

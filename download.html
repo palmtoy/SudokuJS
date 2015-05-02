@@ -15,9 +15,10 @@
         Script and PHP code: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache Free License 2.0</a>
     </li>
     <li>
-        Sudoku Puzzles: Apache License 2.0 for the 80 free puzzles("puzzles-free"), Commercial license for the 1600
-        puzzles("puzzles" folder).
+        Sudoku Puzzles: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0 for 80 free puzzles</a>, Commercial license(USD99) for 1600
+        puzzles.
     </li>
+
 </ul>
 <h2>Purchase commercial License</h2>
 <div>
@@ -148,13 +149,9 @@
 <h2>Usage</h2>
 <p>Take a look at index.html in the zip file, and use it as a template when implementing the Sudoku Script.</p>
 <h4>Toggle between commercial and non-commercial use</h4>
-<p>If you have purchased a commercial license, set commercial to true when creating the Javascript controller object.</p>
+<p>If you have purchased a commercial license, enable it in sudoku-controller.php with this line:</p>
 <p>Example:</p>
 <p><span class="inline_code">
-var controller = new Sudoku.Controller({<br>
-&nbsp;&nbsp;    commercial: true<br>
-});
+$sudokuReader->useCommercial();
 </span></p>
-<p>Otherwise, set it to false.</p>
-<p>When set to <b>true</b>, the script will pick from the 1600 Sudoku Puzzles available in the <b>puzzles</b> folder. When set to <b>false</b>,
-the script will fetch puzzles from the <b>puzzles-free</b> folder(80 puzzles, 10 for each difficulty).</p>
+<p>When enabled, the script will pick from the 1600 Sudoku Puzzles available in the <b>puzzles</b> folder. Otherwise it will fetch puzzles from the <b>puzzles-free</b> folder(80 puzzles, 10 for each difficulty).</p>
