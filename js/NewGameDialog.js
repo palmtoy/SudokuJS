@@ -57,10 +57,10 @@ $.extend(Sudoku.NewGameDialog.prototype, {
         this.el.find(".sudoku-new-game-slider").slider({
             min: 1, max: 8,
             slide:function(event, ui){
-                this.updateSlider(ui.value);
+                this.updateLabel(ui.value);
             }.bind(this),
             change:function(event, ui){
-                this.updateSlider(ui.value);
+                this.updateLabel(ui.value);
             }.bind(this)
         });
 
@@ -76,7 +76,7 @@ $.extend(Sudoku.NewGameDialog.prototype, {
         this.elDifficulty = this.el.find(".sudoku-difficulty-label");
 
         this.position();
-
+        this.updateLabel(this.difficulty);
         this.hide();
     },
 
@@ -89,9 +89,9 @@ $.extend(Sudoku.NewGameDialog.prototype, {
         this.el.hide();
     },
 
-    updateSlider:function(value){
+    updateLabel:function(value){
         this.difficulty = value;
-        this.elDifficulty.text(this.difficulties[value-1]);
+        this.elDifficulty.text('L' + value + ' - ' + this.difficulties[value-1]);
     },
 
     position: function () {
