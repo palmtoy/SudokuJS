@@ -92,8 +92,8 @@
 
 <div class="sudoku-demo">
     <div id="puzzle_description"></div>
-    <div id="board_container"></div>
-    <div id="button_bar_container"></div>
+    <div id="board_container" style="position:relative"></div>
+    <div id="button_bar_container" style="position:relative"></div>
     <div class="menu_container">
         <Button class="sudoku-menu-button" onclick="controller.getModel().restart()">Restart</Button>
         <Button class="sudoku-menu-button" onclick="newGameDialog.show()">Try another</Button>
@@ -159,6 +159,8 @@
 
 
 </script>
+<p>The dimension(width and height) of the board is dynamic, based on the CSS dimension specified for the
+&lt;div> elements it is rendered to.</p>
 <h2>Usage</h2>
 <p>Tip! Use the index.html file in the download zip as a template for use.</p>
 <h4>Step 1</h4>
