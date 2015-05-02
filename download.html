@@ -211,3 +211,18 @@ controller.setNewGameDialog(newGameDialog);<br>
 controller.setSudokuSolvedView(solvedView);<br>
 </span>
 </p>
+<h5>Step 5: Show initial sudoku board</h5>
+<p>If there is a game to resume(saved locally in the browser), resume the game, otherwise show
+empty board and display the New Game dialog:</p>
+<p>
+<span class="inline_code">
+ if (controller.hasGameToResume()) {<br>
+&nbsp;&nbsp;     // puzzle saved in local storage(browser) - resume it<br>
+&nbsp;&nbsp;     controller.resume();<br>
+} else {<br>
+&nbsp;&nbsp;     // Show new game dialog<br>
+&nbsp;&nbsp;     controller.showEmptyBoard();<br>
+&nbsp;&nbsp;     newGameDialog.show();<br>
+}
+</span>
+</p>
