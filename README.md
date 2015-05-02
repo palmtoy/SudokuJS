@@ -11,7 +11,26 @@ Line 1: 81 character string of the puzzles shown to the user where 0 represents 
 
 Line 2: 81 character string of the solution
 
+#Javascript "classes"
+Sudoku.Board - Board View
+Sudoku.Buttons - Button bar for the Sudoku
+Sudoku.NewGameDialog - Dialog for starting a new game
+Sudoku.SolvedDialog - Dialog shown when sudoku is solved
+
+
 #USAGE
+1) Create views and render them to empty <div> elements on the web page
+Example:
+```html
+<div id="button_bar_container"></div>
+```
+
+```javascript
+    // Create board and render it to <div id="board_container">
+    var board = new Sudoku.Board({
+        renderTo: '#board_container'
+    });
+```
 ```javascript
     // Text descriptions - levels
     var difficulties = [

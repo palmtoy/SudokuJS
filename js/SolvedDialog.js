@@ -3,13 +3,13 @@
  */
 if(!Sudoku)Sudoku = {};
 
-Sudoku.SudokuSolvedDialog = function(config){
+Sudoku.SolvedDialog = function(config){
 
     if(config.renderTo != undefined)this.renderTo = $(config.renderTo); else this.renderTo = document.body;
     if(config.txtNewGame != undefined)this.txtNewGame = config.txtNewGame;
 };
 
-$.extend(Sudoku.SudokuSolvedDialog.prototype, {
+$.extend(Sudoku.SolvedDialog.prototype, {
 
     renderTo:undefined,
     el:undefined,

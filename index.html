@@ -12,7 +12,7 @@
     <script type="text/javascript" src="js/Buttons.js"></script>
     <script type="text/javascript" src="js/Board.js"></script>
     <script type="text/javascript" src="js/NewGameDialog.js"></script>
-    <script type="text/javascript" src="js/SudokuSolvedDialog.js"></script>
+    <script type="text/javascript" src="js/SolvedDialog.js"></script>
 
     <style type="text/css">
         body {
@@ -85,7 +85,7 @@
     });
 
     // Sudoku Solved view - shown when sudoku is solved
-    var solvedView = new Sudoku.SudokuSolvedDialog({
+    var solvedView = new Sudoku.SolvedDialog({
         renderTo: '#board_container',
         txtNewGame: 'New Game' // Button text - new game
     });
