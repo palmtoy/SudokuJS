@@ -1,29 +1,38 @@
 <!-- Download template for dhtmlgoodies.com -->
 <h1>Sudoku</h1>
 <p class="article_links">
-    <a href="scripts/sudoku/index.html" onclick="var scriptWin = window.open(this.href,'sudoku');scriptWin.focus();return false">Demo</a> |
+    <a href="scripts/sudoku/index.html"
+       onclick="var scriptWin = window.open(this.href,'sudoku');scriptWin.focus();return false">Demo</a> |
 </p>
 <h2>License</h2>
-<ul><li>
-    Script and PHP code: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache Free License 2.0</a>
-</li>
-<li>
-    Sudoku Puzzles: Apache License 2.0 for the 80 free puzzles("puzzles-free"), Commercial license for the 1600 puzzles("puzzles" folder).
-</li></ul>
+<ul>
+    <li>
+        Script and PHP code: <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache Free License 2.0</a>
+    </li>
+    <li>
+        Sudoku Puzzles: Apache License 2.0 for the 80 free puzzles("puzzles-free"), Commercial license for the 1600
+        puzzles("puzzles" folder).
+    </li>
+</ul>
 <h2>Purchase commercial License</h2>
 <div>
     <p>Price: USD99 (The rights to use the 1600 Sudoku Puzzles in the puzzles folder)</p>
-    <p><form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+
+    <p>
+
+    <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
         <input type="hidden" name="hosted_button_id" value="2874WGA6BNPUW">
-        <input type="image" src="https://www.paypalobjects.com/en_US/NO/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+        <input type="image" src="https://www.paypalobjects.com/en_US/NO/i/btn/btn_buynowCC_LG.gif" border="0"
+               name="submit" alt="PayPal - The safer, easier way to pay online!">
         <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
     </form>
     </p>
 </div>
 <h2>Download</h2>
 <p><a href="/scripts/sudoku/sudoku.zip">sudoku.zip</a></p>
-<p>The script can also be downloaded from GitHub: <a href="https://github.com/DHTMLGoodies/SudokuJS">https://github.com/DHTMLGoodies/SudokuJS</a>.</p>
+<p>The script can also be downloaded from GitHub: <a href="https://github.com/DHTMLGoodies/SudokuJS">https://github.com/DHTMLGoodies/SudokuJS</a>.
+</p>
 <h2>Demo</h2>
 <link rel="stylesheet" href="/scripts/sudoku/css/sudoku.css" media="screen"/>
 
@@ -37,7 +46,9 @@
 <link href='http://alexgorbatchev.com/pub/sh/2.1.364/styles/shThemeDefault.css' rel='stylesheet' type='text/css'/>
 <script language='javascript'>
     window.onload = function () {
-        dp.SyntaxHighlighter.ClipboardSwf = &#39;http://alexgorbatchev.com/pub/sh/2.1.364/scripts/clipboard.swf&#39;;
+        dp.SyntaxHighlighter.ClipboardSwf =
+        &#39;
+        http://alexgorbatchev.com/pub/sh/2.1.364/scripts/clipboard.swf&#39;;
                 dp.SyntaxHighlighter.HighlightAll();
 
     }
@@ -53,10 +64,11 @@
 <script type="text/javascript" src="/scripts/sudoku/js/SolvedDialog.js"></script>
 <style type="text/css">
 
-    .sudoku-demo{
-        width:400px;
-        margin-left:40px;
+    .sudoku-demo {
+        width: 400px;
+        margin-left: 40px;
     }
+
     #button_bar_container {
         width: 100%;
         position: relative;
@@ -121,7 +133,7 @@
 
     // Create controller
     var controller = new Sudoku.Controller({
-        url : '/scripts/sudoku/sudoku-controller.php',
+        url: '/scripts/sudoku/sudoku-controller.php',
         commercial: true // Set to true ONLY after purchasing a commercial license
 
     });
@@ -148,17 +160,20 @@
 
 </script>
 <h2>Usage</h2>
-<p>Take a look at the index.html file for instructions.</p>
+<p>Tip! Use the index.html file in the download zip as a template for use.</p>
 <h4>Step 1</h4>
 <p>Include Javascript and CSS files</p>
 <h4>Step 2: Create HTML elements</h4>
 <p>Create HTML elements where you want the Sudoku to be rendered, example</p>
+<p>
 <span class="inline_code">
-    &div id="board_container">&/div>
-    &div id="button_bar_container">&/div>
+    &lt;div id="board_container">&lt;/div><br>
+    &lt;div id="button_bar_container">&lt;/div>
 </span>
+</p>
 <h4>Step 3: Create Sudoku Javascript objects</h4>
 <p>Example:</p>
+<p>
 <span class="inline_code">
 // Create button bar and render it to &lt;div id="button_bar_container"><br>
 &nbsp;&nbsp;var buttonBar = new Sudoku.Buttons({<br>
@@ -168,4 +183,9 @@
 &nbsp;&nbsp;var board = new Sudoku.Board({<br>
 &nbsp;&nbsp;renderTo: '#board_container'<br>
 });
+// Create controller
+var controller = new Sudoku.Controller({<br>
+ &nbsp;&nbsp;   commercial: true // Set to true ONLY after purchasing a commercial license<br>
+});
 </span>
+</p>
