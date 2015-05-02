@@ -1,6 +1,7 @@
 # SudokuJS
 
-Sudoku DHTML Script
+Sudoku DHTML and PHP Script
+
 The Javascript and PHP is under open source license(BSD)
 
 There is a commercial license for the puzzles found in the puzzles folder. By purchasing a commercial license, you are free to use the puzzles provided with the script. With the free licence, you can use the script to render your own Sudoku Puzzles.
@@ -19,7 +20,7 @@ Sudoku.SolvedDialog - Dialog shown when sudoku is solved
 
 
 #USAGE
-1) Create views and render them to empty <div> elements on the web page
+1) Create views and render them to empty &lt;div> elements on the web page
 Example:
 ```html
 <div id="button_bar_container"></div>
@@ -44,6 +45,7 @@ controller.setBoard(board);
 controller.setNewGameDialog(newGameDialog);
 controller.setSudokuSolvedView(solvedView);
 ```
+The controller loads Sudoku Puzzles from the server and handles interactions between the views
 
 # Complete Code sample
 ```javascript
