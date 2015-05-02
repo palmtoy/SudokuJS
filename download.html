@@ -103,7 +103,9 @@
 
     // Create controller
     var controller = new Sudoku.Controller({
+        url : '/scripts/sudoku/sudoku-controller.php',
         commercial: true // Set to true ONLY after purchasing a commercial license
+
     });
     // Make controller aware of views
     controller.setButtonBar(buttonBar);
