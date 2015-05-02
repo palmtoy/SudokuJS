@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="js/jquery-ui-1.11.4/jquery-ui.min.css" media="screen"/>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
     <script type="text/javascript" src="js/jquery-ui-1.11.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="js/Controller.js"></script>
-    <script type="text/javascript" src="js/Model.js"></script>
+    <script type="text/javascript" src="js/Sudoku-Controller.js"></script>
+    <script type="text/javascript" src="js/Sudoku-Model.js"></script>
     <script type="text/javascript" src="js/Buttons.js"></script>
     <script type="text/javascript" src="js/Board.js"></script>
     <script type="text/javascript" src="js/NewGameDialog.js"></script>
+    <script type="text/javascript" src="js/SudokuSolvedDialog.js"></script>
 
     <style type="text/css">
         body {
@@ -35,6 +36,13 @@
             text-align: right;
             font-size: 0.8em;
             padding-bottom: 5px;
+        }
+
+        /** Heading for the Sudoku Solved View **/
+        .sudoku-solved-heading {
+            width: 400px;
+            height: 269px;
+            background: url(images/sudoku_solved_heading.png) center no-repeat;
         }
 
     </style>
@@ -70,10 +78,18 @@
         renderTo: '#board_container'
     });
 
+    // New Game Dialog
     var newGameDialog = new Sudoku.NewGameDialog({
         renderTo: '#board_container',
         difficulty: 1 // Default difficulty
     });
+
+    // Sudoku Solved view - shown when sudoku is solved
+    var solvedView = new Sudoku.SudokuSolvedDialog({
+        renderTo: '#board_container',
+        txtNewGame: 'New Game' // Button text - new game
+    });
+
 
     // Create controller
     var controller = new Sudoku.Controller({
@@ -83,6 +99,7 @@
     controller.setButtonBar(buttonBar);
     controller.setBoard(board);
     controller.setNewGameDialog(newGameDialog);
+    controller.setSudokuSolvedView(solvedView);
 
     // When a model is loaded, update textual description above board
     $(controller).on("loadmodel", function (event, model) {
@@ -93,9 +110,12 @@
         // puzzle saved in local storage(browser) - resume it
         controller.resume();
     } else {
-        // Load random - very easy sudoku
-        controller.loadRandomBy(1);
+        // Show new game dialog
+        controller.showEmptyBoard();
+        newGameDialog.show();
     }
+
+
 </script>
 </body>
 </html>

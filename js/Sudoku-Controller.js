@@ -16,6 +16,8 @@ $.extend(Sudoku.Controller.prototype, {
     buttonBar:undefined,
     board : undefined,
     model : undefined,
+    newGameDialog:undefined,
+    sudokuSolvedView:undefined,
 
     commercial: false,
 
@@ -90,6 +92,9 @@ $.extend(Sudoku.Controller.prototype, {
         $(this.model).on("solved", function(){
             this.lockViews();
             $(this).trigger("solved");
+            if(this.sudokuSolvedView != undefined){
+                this.sudokuSolvedView.show();
+            }
         }.bind(this));
 
         $(this.model).on("quicknote", function(event, col,row, notes){
@@ -111,6 +116,22 @@ $.extend(Sudoku.Controller.prototype, {
             if(this.board){
                 this.board.highlight(digit);
             }
+        }.bind(this));
+    },
+
+    setNewGameDialog:function(dialog){
+        this.newGameDialog = dialog;
+
+        $(this.newGameDialog).on("startGame", function(event, level){
+            this.loadRandomBy(level);
+        }.bind(this));
+    },
+
+    setSudokuSolvedView:function(view){
+        this.sudokuSolvedView = view;
+
+        $(this.sudokuSolvedView).on("newGame", function(event){
+            if(this.newGameDialog)this.newGameDialog.show();
         }.bind(this));
     },
 
@@ -158,5 +179,12 @@ $.extend(Sudoku.Controller.prototype, {
     hasGameToResume:function(){
         if(typeof(Storage)=="undefined")return false;
         return localStorage["sudokuToResume"] ? true: false;
+    },
+
+    showEmptyBoard:function(){
+        var model = new Sudoku.Model();
+        this.setModel(model);
+        model.lock();
+        if(this.buttonBar)this.buttonBar.lock();
     }
 });

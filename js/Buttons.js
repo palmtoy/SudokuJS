@@ -159,7 +159,7 @@ $.extend(Sudoku.Buttons.prototype, {
 
     updateDigitCount:function(digit){
         var remaining = this.model.getRemainingCount(digit);
-        this.digitCounts[digit-1].text(remaining);
+        this.digitCounts[digit-1].text(isNaN(remaining) ? "" : remaining);
         if(remaining == 0){
             this.buttons[digit-1].addClass("sudoku-button-text-finished");
         }else{

@@ -173,3 +173,7 @@ span.ui-corner-all{
     float:left;
     text-align:center;
 }
+
+.sudoku-solved-dialog{
+    z-index:11;
+}
