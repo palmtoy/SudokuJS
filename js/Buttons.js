@@ -56,6 +56,8 @@ $.extend(Sudoku.Buttons.prototype, {
 
     locked:undefined,
 
+    imagePath : "images/",
+
     configure: function (config) {
         config = config || {};
         if (config.renderTo) {
@@ -65,6 +67,7 @@ $.extend(Sudoku.Buttons.prototype, {
         }
         if (config.spacing)this.spacing = config.spacing;
         if (config.rows)this.rows = config.rows;
+        if (config.imagePath)this.imagePath = config.imagePath;
     },
 
 
@@ -126,12 +129,12 @@ $.extend(Sudoku.Buttons.prototype, {
         }else{
             switch(text){
                 case "quicknotes":
-                    button.append('<img src="images/pencil.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
+                    button.append('<img src="' + this.imagePath + 'pencil.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
                     button.on("click", null, null, this.toggleQuickNotes.bind(this));
                     this.pencil = button;
                     break;
                 case "eraser":
-                    button.append('<img src="images/eraser.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
+                    button.append('<img src="' + this.imagePath + 'eraser.png" style="width:' + this.buttonSize + 'px;height:' + this.buttonSize + 'px">');
                     button.on("click", null, null, this.toggleEraseMode.bind(this));
                     this.eraser = button;
                     break;
