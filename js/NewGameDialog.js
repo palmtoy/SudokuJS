@@ -88,5 +88,4 @@ $.extend(Sudoku.NewGameDialog.prototype, {
         this.el.css("margin-top", (height / 2 * -1));
     }
 
-
 });
