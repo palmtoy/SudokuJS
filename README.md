@@ -51,7 +51,8 @@ controller.setSudokuSolvedView(solvedView);
 The controller loads Sudoku Puzzles from the server and handles interactions between the views
 
 # Complete Code sample
-`
+
+```javascript
 // Text descriptions - levels
 var difficulties = [
     'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
