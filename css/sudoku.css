@@ -115,14 +115,54 @@ div.sudoku-square-incorrect{
     background-image: linear-gradient(to bottom, #8abd00, #669900);
     background-color:#669900;
     color:#FFF;
-    font-size:23px;
-    height:50px;
+    font-size:18px;
+    height:40px;
     cursor:pointer;
     vertical-align: middle;
     border-radius:8px;
-    font-weight: bold;
+    font-weight: normal;
     display:inline-block;
-    border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    border-color: transparent;
+    margin-right:10px;
+}
+
+button.sudoku-menu-button-light{
+    background-image: linear-gradient(to bottom, #e2f0b6, #f0f8db);
+    background-color:#f0f8db;
+    color: #669900;
+
+}
+
+.sudoku-dialog {
+    background-color: #669900;
+    border-radius: 15px;
+    color: #FFF;
+    z-index:10;
+}
+/* New game dialog CSS */
+.new-game-dialog{
+    padding:20px;
+}
+.sudoku-new-game-heading{
+    font-size:20px;
+    margin-bottom:15px;
+    text-align: center;
+}
+
+.sudoku-new-game-slider{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.sudoku-difficulty-label{
+    text-align : center;
+    font-size:0.8em;
+}
+
+span.ui-state-default{
+    background: #669900 !important;
+}
+span.ui-corner-all{
+    border-radius:10px !important;
 }
 
 .sudoku-quicknotes-container{

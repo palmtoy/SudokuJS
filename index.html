@@ -11,26 +11,30 @@
     <script type="text/javascript" src="js/Model.js"></script>
     <script type="text/javascript" src="js/Buttons.js"></script>
     <script type="text/javascript" src="js/Board.js"></script>
+    <script type="text/javascript" src="js/NewGameDialog.js"></script>
 
     <style type="text/css">
-        body{
-            background-color:#f0f8db;
-            font-family:arial;
+        body {
+            background-color: #f0f8db;
+            font-family: arial;
         }
-        .content{
-            margin:0 auto;
-            width:500px;
+
+        .content {
+            margin: 0 auto;
+            width: 500px;
         }
-        #button_bar_container{
-            width:100%;
-            position:relative;
-            height:150px;
-            margin-top:5px;
+
+        #button_bar_container {
+            width: 100%;
+            position: relative;
+            height: 150px;
+            margin-top: 5px;
         }
-        #puzzle_description{
-            text-align:right;
-            font-size:0.8em;
-            padding-bottom:5px;
+
+        #puzzle_description {
+            text-align: right;
+            font-size: 0.8em;
+            padding-bottom: 5px;
         }
 
     </style>
@@ -44,7 +48,7 @@
     <div id="button_bar_container"></div>
     <div class="menu_container">
         <Button class="sudoku-menu-button" onclick="controller.getModel().restart()">Restart</Button>
-        <Button class="sudoku-menu-button" onclick="controller.loadRandomBy(1)">Try another</Button>
+        <Button class="sudoku-menu-button" onclick="newGameDialog.show()">Try another</Button>
 
     </div>
 </div>
@@ -53,36 +57,42 @@
 <script type="text/javascript">
     // Text descriptions - levels
     var difficulties = [
-        'Very easy', 'Easy','Easy', 'Moderate', 'Moderate', 'Hard','Very Hard', 'Extreme'
+        'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
     ];
 
     // Create button bar and render it to <div id="button_bar_container">
     var buttonBar = new Sudoku.Buttons({
-        renderTo:'#button_bar_container'
+        renderTo: '#button_bar_container'
     });
 
     // Create board and render it to <div id="board_container">
     var board = new Sudoku.Board({
-        renderTo:'#board_container'
+        renderTo: '#board_container'
+    });
+
+    var newGameDialog = new Sudoku.NewGameDialog({
+        renderTo: '#board_container',
+        difficulty: 1 // Default difficulty
     });
 
     // Create controller
     var controller = new Sudoku.Controller({
-        commercial:true // Set to true ONLY after purchasing a commercial license
+        commercial: true // Set to true ONLY after purchasing a commercial license
     });
     // Make controller aware of views
     controller.setButtonBar(buttonBar);
     controller.setBoard(board);
+    controller.setNewGameDialog(newGameDialog);
 
     // When a model is loaded, update textual description above board
-    $(controller).on("loadmodel", function(event, model){
+    $(controller).on("loadmodel", function (event, model) {
         $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
     });
 
-    if(controller.hasGameToResume()){
+    if (controller.hasGameToResume()) {
         // puzzle saved in local storage(browser) - resume it
         controller.resume();
-    }else {
+    } else {
         // Load random - very easy sudoku
         controller.loadRandomBy(1);
     }
