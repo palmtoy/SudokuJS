@@ -1,7 +1,7 @@
 <!-- Download template for dhtmlgoodies.com -->
 <h1>Sudoku</h1>
 <p class="article_links">
-
+    <a href="scripts/sudoku/index.html" onclick="var scriptWin = window.open(this.href,'sudoku');scriptWin.focus();return false">Demo</a> |
 </p>
 <h2>License</h2>
 <ul><li>
@@ -148,17 +148,68 @@
 
 </script>
 <h2>Usage</h2>
-<h4>Step 1: Include Javascript and CSS files:</h4>
+<p>Take a look at the index.html file for instructions.</p>
+<h4>Step 1</h4>
+<p>Include Javascript and CSS files</p>
+<h4>Step 2: Create HTML elements</h4>
+<p>Create HTML elements where you want the Sudoku to be rendered, example</p>
+<span class="inline_code">
+    &div id="board_container">&/div>
+    &div id="button_bar_container">&/div>
+</span>
+<h4>Step 3: Create Sudoku Javascript objects</h4>
+<p>Example:</p>
+<pre class="brush:javascript">
+    // Text descriptions - levels
+    var difficulties = [
+        'Very easy', 'Easy', 'Easy', 'Moderate', 'Moderate', 'Hard', 'Very Hard', 'Extreme'
+    ];
 
-<pre class="brush:html">
-&lt;link rel="stylesheet" href="css/sudoku.css" media="screen"/>
-&lt;link rel="stylesheet" href="js/jquery-ui-1.11.4/jquery-ui.min.css" media="screen"/>
-&lt;script type="text/javascript" src="js/jquery-1.11.2.min.js">&lt;/script>
-&lt;script type="text/javascript" src="js/jquery-ui-1.11.4/jquery-ui.min.js">&lt;/script>
-&lt;script type="text/javascript" src="js/Controller.js">&lt;/script>
-&lt;script type="text/javascript" src="js/Model.js">&lt;/script>
-&lt;script type="text/javascript" src="js/Buttons.js">&lt;/script>
-&lt;script type="text/javascript" src="js/Board.js">&lt;/script>
-&lt;script type="text/javascript" src="js/NewGameDialog.js">&lt;/script>
-&lt;script type="text/javascript" src="js/SolvedDialog.js">&lt;/script>
+    // Create button bar and render it to <div id="button_bar_container">
+    var buttonBar = new Sudoku.Buttons({
+    renderTo: '#button_bar_container'
+    });
+
+    // Create board and render it to <div id="board_container">
+    var board = new Sudoku.Board({
+    renderTo: '#board_container'
+    });
+
+    // New Game Dialog
+    var newGameDialog = new Sudoku.NewGameDialog({
+    renderTo: '#board_container',
+    difficulty: 1 // Default difficulty
+    });
+
+    // Sudoku Solved view - shown when sudoku is solved
+    var solvedView = new Sudoku.SolvedDialog({
+    renderTo: '#board_container',
+    txtNewGame: 'New Game' // Button text - new game
+    });
+
+
+    // Create controller
+    var controller = new Sudoku.Controller({
+    commercial: true // Set to true ONLY after purchasing a commercial license
+    });
+    // Make controller aware of views
+    controller.setButtonBar(buttonBar);
+    controller.setBoard(board);
+    controller.setNewGameDialog(newGameDialog);
+    controller.setSudokuSolvedView(solvedView);
+
+    // When a model is loaded, update textual description above board
+    $(controller).on("loadmodel", function (event, model) {
+    $("#puzzle_description").text(difficulties[model.getLevel() - 1]);
+    });
+
+    if (controller.hasGameToResume()) {
+    // puzzle saved in local storage(browser) - resume it
+    controller.resume();
+    } else {
+    // Show new game dialog
+    controller.showEmptyBoard();
+    newGameDialog.show();
+    }
+
 </pre>
