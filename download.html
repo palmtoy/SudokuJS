@@ -146,69 +146,15 @@
 <p>The dimension(width and height) of the board is dynamic, based on the CSS dimension specified for the
 &lt;div> elements it is rendered to.</p>
 <h2>Usage</h2>
-<p>Tip! Use the index.html file in the download zip as a template for use.</p>
-<h4>Step 1</h4>
-<p>Include Javascript and CSS files (See index.html file).</p>
-<h4>Step 2: Create HTML elements</h4>
-<p>Create HTML elements where you want the Sudoku to be rendered, example</p>
-<p>
-<span class="inline_code">
-    &lt;div id="board_container">&lt;/div><br>
-    &lt;div id="button_bar_container">&lt;/div>
-</span>
-</p>
-<h4>Step 3: Create Sudoku Javascript View objects</h4>
+<p>Take a look at index.html in the zip file and use it as a template when implementing the Sudoku Script.</p>
+<h4>Toggle between commercial and non-commercial use</h4>
+<p>If you have purchased a commercial license, set commercial to true when creating the Javascript controller object.</p>
 <p>Example:</p>
-<p>
-<span class="inline_code">
-// Create button bar and render it to &lt;div id="button_bar_container"><br>
-&nbsp;&nbsp;var buttonBar = new Sudoku.Buttons({<br>
-&nbsp;&nbsp;renderTo: '#button_bar_container'<br>
-});<br><br>
- // Create board and render it to &lt;div id="board_container"><br>
-&nbsp;&nbsp;var board = new Sudoku.Board({<br>
-&nbsp;&nbsp;renderTo: '#board_container'<br><br>
-});<br><br>
-    // New Game Dialog<br>
-var newGameDialog = new Sudoku.NewGameDialog({<br>
-&nbsp;&nbsp;    renderTo: '#board_container',<br>
-&nbsp;&nbsp;    difficulty: 1 // Default difficulty<br>
-});<br><br>
-
-// Sudoku Solved view - shown when sudoku is solved<br>
-var solvedView = new Sudoku.SolvedDialog({<br>
-&nbsp;&nbsp;    renderTo: '#board_container',<br>
-&nbsp;&nbsp;    txtNewGame: 'New Game' // Button text - new game<br>
-});<br>
-
-</span>
-</p>
-<h4>Step 4: Create Javascript Sudoku controller and make it aware of the views.</h4>
-<p>Example:</p>
-<p>
-<span class="inline_code">
-// Create controller<br>
+<p><span class="inline_code">
 var controller = new Sudoku.Controller({<br>
- &nbsp;&nbsp;   commercial: true // Set to true ONLY after purchasing a commercial license<br>
-});<br><br>
-controller.setButtonBar(buttonBar);<br>
-controller.setBoard(board);<br>
-controller.setNewGameDialog(newGameDialog);<br>
-controller.setSudokuSolvedView(solvedView);<br>
-</span>
-</p>
-<h5>Step 5: Show initial sudoku board</h5>
-<p>If there is a game to resume(saved locally in the browser), resume the game, otherwise show
-empty board and display the New Game dialog:</p>
-<p>
-<span class="inline_code">
- if (controller.hasGameToResume()) {<br>
-&nbsp;&nbsp;     // puzzle saved in local storage(browser) - resume it<br>
-&nbsp;&nbsp;     controller.resume();<br>
-} else {<br>
-&nbsp;&nbsp;     // Show new game dialog<br>
-&nbsp;&nbsp;     controller.showEmptyBoard();<br>
-&nbsp;&nbsp;     newGameDialog.show();<br>
-}
-</span>
-</p>
+&nbsp;&nbsp;    commercial: true<br>
+});
+</span></p>
+<p>Otherwise, set it to false.</p>
+<p>When set to <b>true</b>, the script will pick from the 1600 Sudoku Puzzles available in the <b>puzzles</b> folder. When set to <b>false</b>,
+the script will fetch puzzles from the <b>puzzles-free</b> folder(80 puzzles, 10 for each difficulty).</p>
