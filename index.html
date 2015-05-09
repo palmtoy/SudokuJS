@@ -66,6 +66,41 @@
             background: url(images/sudoku_solved_heading.png) center no-repeat;
         }
 
+        a{
+            color:#e57a00;
+        }
+
+        /** Mobile CSS **/
+        @media only screen and (max-device-width: 480px) {
+            .heading{
+                display:none;
+            }
+            .content{
+                width:inherit;
+            }
+
+            #button_bar_container{
+                margin-top:15px;
+                margin-bottom:15px;
+                height:250px;
+            }
+
+            .menu_container{
+                text-align: center;
+                margin-bottom:20px;
+            }
+
+            .sudoku-menu-button{
+                height:70px;
+                font-size:30px;
+            }
+
+            a{
+                font-size:24px;
+            }
+        }
+
+
     </style>
 </head>
 <body>
@@ -80,6 +115,7 @@
         <Button class="sudoku-menu-button" onclick="newGameDialog.show()">Try another</Button>
 
     </div>
+    <a href="http://www.dhtmlgoodies.com?whichScript=sudoku">Click here to download SudokuJS for your web site.</a>
 </div>
 
 
