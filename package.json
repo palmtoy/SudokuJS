@@ -1,0 +1,23 @@
+{
+  "name": "SudokuJS",
+  "version": "1.0.0",
+  "description": "Sudoku DHTML and PHP Script",
+  "main": "app.js",
+  "directories": {
+    "test": "tests"
+  },
+  "dependencies": {
+    "node-php-server": "^0.1.2"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/palmtoy/SudokuJS.git"
+  },
+  "author": "palmtoy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/palmtoy/SudokuJS/issues"
+  },
+  "homepage": "https://github.com/palmtoy/SudokuJS"
+}
